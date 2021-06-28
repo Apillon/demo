@@ -119,7 +119,7 @@ export default Vue.extend({
       if (this.verifyInputs()) {
         this.error = ''
         await this.verify()
-        if ((this.responseData as any)?.txHash) {
+        if ((this.responseData as any)?.txid) {
           await this.verifyDeep()
         }
       } else {
@@ -153,7 +153,6 @@ export default Vue.extend({
             'x-api-key': process.env.API_KEY
           }
         })
-        console.log(res.data)
         this.responseData = res.data
       } catch (e) {
         // todo error
@@ -170,8 +169,8 @@ export default Vue.extend({
             'x-api-key': process.env.API_KEY
           }
         })
-        console.log(res.data)
         this.deepResponseData = res.data
+        this.$emit('verified', this.deepResponseData);
       } catch (e) {
         // todo error
         console.log(e)

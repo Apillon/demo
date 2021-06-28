@@ -13,20 +13,23 @@
       </div>
       <div class="step-container">
         <h3 class="step-title">
-          <strong>1. Step</strong> Enter data
+          Enter data
         </h3>
         <VerifyData
           class="step-content"
+          @verified="handleValidateData($event)"
         />
       </div>
       <div id="#second-step" class="step-container">
-        <h3 class="step-title">
-          <strong>2. Step</strong> Verify data
-        </h3>
-        <ValidatateData
-          class="step-content"
-          :hashed-data="hashedData"
-        />
+        <div v-if="validateData" >
+          <h3 class="step-title">
+            Hash data - manual verify
+          </h3>
+          <ValidateData
+            class="step-content"
+            :validate-data="validateData"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -38,12 +41,12 @@ import Vue from 'vue'
 export default Vue.extend({
   data () {
     return {
-      hashedData: ''
+      validateData: ''
     }
   },
   methods: {
-    handleHashedData (hash: string) {
-      this.hashedData = hash
+    handleValidateData (data: any) {
+      this.validateData = data
       if (process.browser) {
         const VueScrollTo = require('vue-scrollto')
         const element = document.getElementById('#second-step')
