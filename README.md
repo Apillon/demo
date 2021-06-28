@@ -1,2 +1,4 @@
-# demo
-Simple demonstration page
+# Demo
+
+Simple demonstration page of AuthTrail integrity functionalities.
+
