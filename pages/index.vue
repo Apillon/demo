@@ -5,7 +5,7 @@
         <h1 class="col-12 col-sm-6 title">
           Demo
         </h1>
-        <div class="col-12 col-sm-6 instructions-link">
+        <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
           <nuxt-link to="/verify">
             Verify
           </nuxt-link>
@@ -40,36 +40,36 @@ export default Vue.extend({
 <style lang="scss" scoped>
   @import "../assets/sass/abstracts/variables";
 
-  .instructions-link {
-    display: flex;
-    align-items: flex-end;
-    width: 100%;
-    justify-content: flex-end;
-    padding-bottom: 19px;
+  // .instructions-link {
+  //   display: flex;
+  //   align-items: flex-end;
+  //   width: 100%;
+  //   justify-content: flex-end;
+  //   padding-bottom: 19px;
 
-    a {
-      color: $primaryColor;
-      font-weight: 600;
-      text-decoration: none;
+  //   a {
+  //     color: $primaryColor;
+  //     font-weight: 600;
+  //     text-decoration: none;
 
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-  }
+  //     &:hover {
+  //       opacity: 0.7;
+  //     }
+  //   }
+  // }
 
   .main-container {
     margin-top: 130px;
   }
 
-  .title {
-    font-size: 70px;
-    font-weight: 600;
+  // .title {
+  //   font-size: 70px;
+  //   font-weight: 600;
 
-    @media (max-width: 576px) {
-      font-size: 60px;
-    }
-  }
+  //   @media (max-width: 576px) {
+  //     font-size: 60px;
+  //   }
+  // }
 
   .step-container {
     margin-bottom: 80px;
