@@ -2,7 +2,7 @@
   <div>
     <!-- Tag input -->
     <b-row class="mb-2">
-      <b-col cols="12" md="5">
+      <b-col cols="12" lg="5" md="6">
         <custom-textarea
           id="tag"
           v-model="tag"
@@ -22,7 +22,7 @@
 
     <!-- Data input -->
     <b-row>
-      <b-col cols="12" md="5">
+      <b-col cols="12" lg="5" md="6">
         <custom-textarea
           id="data-area"
           v-model="data"
@@ -31,11 +31,11 @@
         />
       </b-col>
 
-      <b-col cols="12" md="2">
+      <b-col cols="12" lg="2" md="1">
         <div class="or-container">or</div>
       </b-col>
 
-      <b-col cols="12" md="5">
+      <b-col cols="12" lg="5" md="5">
         <div class="file-dropbox">
           <input
             type="file"
@@ -68,57 +68,55 @@
         </div>
 
         <template v-else>
-          <b-col md="6" class="mx-auto mb-5">
-            <!-- Integrity guaranteed~! -->
-            <div class="overview-card bg-white shadow-purple rounded" style="max-width: 500px;">
-              <div class="text-center mb-3">
-                <b-icon icon="check-circle-fill" class="text-success h2 mb-0" />
-                <h4>Integrity guaranteed</h4>
-              </div>
-
-              <!-- ID -->
-              <p>
-                <span>
-                  <span class="label">ID</span>
-                  <span>{{ responseData.id }}</span>
-                </span>
-              </p>
-
-              <!-- Tag -->
-              <p>
-                <span>
-                  <span class="label">Tag</span>
-                  <span>{{ responseData.tag }}</span>
-                </span>
-
-                <b-button
-                  class="btn-clipboard ml-1"
-                  variant="outline-primary"
-                  v-b-tooltip.ds500 :title="clipboardText"
-                  @click="copyToClipboard(responseData.tag)"
-                >
-                  <b-icon icon="files" />
-                </b-button>
-              </p>
-
-              <!-- Hash -->
-              <p>
-                <span>
-                  <span class="label">Hash</span>
-                  <span>{{ responseData.hash }}</span>
-                </span>
-              </p>
-
-              <p>
-                <span
-                  class="label d-inline-block"
-                  v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
-                >
-                  @ {{ responseData.createdAt | formatDate }}
-                </span>
-              </p>
+          <!-- Integrity guaranteed~! -->
+          <div class="overview-card bg-white shadow-purple rounded">
+            <div class="text-center mb-3">
+              <b-icon icon="check-circle-fill" class="text-success h2 mb-0" />
+              <h4>Integrity guaranteed</h4>
             </div>
-          </b-col>
+
+            <!-- ID -->
+            <p>
+              <span>
+                <span class="label">ID</span>
+                <span>{{ responseData.id }}</span>
+              </span>
+            </p>
+
+            <!-- Tag -->
+            <p>
+              <span>
+                <span class="label">Tag</span>
+                <span>{{ responseData.tag }}</span>
+              </span>
+
+              <b-button
+                class="btn-clipboard ml-1"
+                variant="outline-primary"
+                v-b-tooltip.ds500 :title="clipboardText"
+                @click="copyToClipboard(responseData.tag)"
+              >
+                <b-icon icon="files" />
+              </b-button>
+            </p>
+
+            <!-- Hash -->
+            <p>
+              <span>
+                <span class="label">Hash</span>
+                <span>{{ responseData.hash }}</span>
+              </span>
+            </p>
+
+            <p>
+              <span
+                class="label d-inline-block"
+                v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
+              >
+                @ {{ responseData.createdAt | formatDate }}
+              </span>
+            </p>
+          </div>
 
           <div class="text-center">
             <b-button
@@ -260,33 +258,14 @@ export default Vue.extend({
 <style lang="scss" scoped>
   @import "../assets/sass/abstracts/variables";
 
-  .generate-tag {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    color: $primaryColor;
-  }
-
-  .generate-tag:hover {
-    cursor: pointer;
-  }
-
-  .data-input-box {
-    height: 250px;
-  }
-
-  .tag-input-box {
-    height: 100px;
-  }
-
   .or-container {
     display: flex;
-    height: 250px;
+    height: 100px;
     align-items: center;
     justify-content: center;
 
-    @media (max-width: 768px) {
-      height: 100px;
+    @media (min-width: 768px) {
+      height: 250px;
     }
   }
 
@@ -327,19 +306,10 @@ export default Vue.extend({
     position: absolute;
   }
 
-  .copy-icon {
-    height: 100%;
-    width: 24px;
-    padding-bottom: 3px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
   .overview-card {
     padding: 1rem;
+    margin: 0 auto 3rem;
+    max-width: 530px;
 
     .label {
       color: $gray-500;
@@ -352,6 +322,8 @@ export default Vue.extend({
       display: flex;
       align-items: center;
       margin-bottom: 0.5rem;
+      word-break: break-word;
+      word-wrap: break-word;
     }
   }
 </style>

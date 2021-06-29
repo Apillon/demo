@@ -10,7 +10,11 @@
         </a>
       </div>
     </nav>
-    <Nuxt />
+
+    <div class="container main-container">
+      <Nuxt />
+    </div>
+
     <footer class="pt-5 pb-5">
       <div class="text-center">
         <div class="at-verified">
@@ -48,7 +52,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .main-container {
+    margin-top: 130px;
+  }
+
   .transparent-nav {
     background: transparent;
     padding: 40px 0px;

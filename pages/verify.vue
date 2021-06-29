@@ -1,33 +1,31 @@
 <template>
-  <div class="container">
-    <div class="main-container">
-      <div class="row mb-5 pt-5 d-flex">
-        <h1 class="col-12 col-sm-6 title">
-          Demo - verify data
-        </h1>
-        <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
-          <nuxt-link to="/">
-            Integrity
-          </nuxt-link>
-        </div>
+  <div>
+    <div class="row mb-5 pt-5 d-flex">
+      <h1 class="col-12 col-sm-6 title">
+        Demo - verify data
+      </h1>
+      <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
+        <nuxt-link to="/">
+          Integrity
+        </nuxt-link>
       </div>
-      <div class="step-container">
-        <h3 class="step-title">
-          <strong>1. Step</strong> Enter data
-        </h3>
-        <VerifyData
-          class="step-content"
-        />
-      </div>
-      <div id="#second-step" class="step-container">
-        <h3 class="step-title">
-          <strong>2. Step</strong> Verify data
-        </h3>
-        <ValidatateData
-          class="step-content"
-          :hashed-data="hashedData"
-        />
-      </div>
+    </div>
+    <div class="step-container">
+      <h3 class="step-title">
+        <strong>1. Step</strong> Enter data
+      </h3>
+      <VerifyData
+        class="step-content"
+      />
+    </div>
+    <div id="#second-step" class="step-container">
+      <h3 class="step-title">
+        <strong>2. Step</strong> Verify data
+      </h3>
+      <ValidatateData
+        class="step-content"
+        :hashed-data="hashedData"
+      />
     </div>
   </div>
 </template>
@@ -56,10 +54,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
   @import "../assets/sass/abstracts/variables";
-
-  .main-container {
-    margin-top: 130px;
-  }
 
   .title {
     font-size: 70px;
