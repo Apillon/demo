@@ -2,22 +2,24 @@
   <div class="container">
     <div class="main-container">
       <div class="row mb-5 pt-5 d-flex">
-        <h1 class="col-12 col-sm-6 title">
+        <h1 class="col-12 col-sm-6 mb-0">
           Demo
         </h1>
         <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
-          <nuxt-link to="/verify">
+          <b-button
+            size="sm"
+            variant="outline-primary"
+            to="/verify"
+          >
             Verify
-          </nuxt-link>
+          </b-button>
         </div>
       </div>
-      <div class="step-container">
-        <h3 class="step-title">
-          <strong>1. Step</strong> Enter data
+      <div class="bg-white shadow-purple rounded-lg p-4">
+        <h3 class="mb-4">
+          1. Step <span class="font-weight-normal">Enter data</span>
         </h3>
-        <CreateData
-          class="step-content"
-        />
+        <CreateData />
       </div>
     </div>
   </div>

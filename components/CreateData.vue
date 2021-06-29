@@ -1,29 +1,41 @@
 <template>
   <div>
-    <div class="row data-hash-row">
-      <div class="col-12 col-md-5 tag-input-box">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter unique data identifier (tag)
-          </p>
-          <b-icon icon="arrow-repeat" class="generate-tag" @click="generateTag()"></b-icon>
-          <textarea ref="data-hash-input" v-model="tag" class="data-input-textarea" />
-        </div>
-      </div>
-    </div>
-    <div class="row data-hash-row mt-1">
-      <div class="col-12 col-md-5 data-input-box">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter data
-          </p>
-          <textarea ref="data-hash-input" v-model="data" class="data-input-textarea" />
-        </div>
-      </div>
-      <div class="or-container col-12 col-md-2">
-        <span>or</span>
-      </div>
-      <div class="col-12 col-md-5 px-0">
+    <!-- Tag input -->
+    <b-row class="mb-2">
+      <b-col cols="12" md="5">
+        <custom-textarea
+          id="tag"
+          v-model="tag"
+          label="Enter unique data identifier (tag)"
+          no-resize
+        >
+          <template #after-label>
+            <b-icon
+              icon="arrow-repeat"
+              class="pointer text-primary"
+              @click="generateTag()"
+            />
+          </template>
+        </custom-textarea>
+      </b-col>
+    </b-row>
+
+    <!-- Data input -->
+    <b-row>
+      <b-col cols="12" md="5">
+        <custom-textarea
+          id="data-area"
+          v-model="data"
+          label="Enter data"
+          height="250px"
+        />
+      </b-col>
+
+      <b-col cols="12" md="2">
+        <div class="or-container">or</div>
+      </b-col>
+
+      <b-col cols="12" md="5">
         <div class="file-dropbox">
           <input
             type="file"
@@ -41,36 +53,89 @@
             </p>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row d-flex justify-content-center mt-5">
-      <b-button
-        v-if="!responseData"
-        variant="primary"
-        @click="hashData"
-      >
-        Add integrity
-      </b-button>
-      <div v-else class="col-12 data-hash">
-        <p class="data-hash-status">
-          <img src="/img/check-hashed.png">
-          Integrity guaranteed
-        </p>
-        <div class="data-hash-hash">
-          <p>{{ responseData.id }}</p>
-          <p>{{ responseData.tag }}</p>
-          <p>{{ responseData.createdAt }}</p>
-          <p>{{ responseData.hash }}</p>
-          <img class="copy-icon" src="/img/copy.svg" @click="copyToClipboard(responseData.tag)">
+      </b-col>
+    </b-row>
+
+    <b-row class="mt-5">
+      <b-col>
+        <div v-if="!responseData.id" class="text-center">
+          <b-button
+            variant="primary"
+            @click="hashData"
+          >
+            Add integrity
+          </b-button>
         </div>
-        <p class="data-hash-clear" @click="clearData()">
-          Add integrity to more data
-        </p>
-      </div>
-      <div v-if="error" class="col-12 data-error">
-        {{ error }}
-      </div>
-    </div>
+
+        <template v-else>
+          <b-col md="6" class="mx-auto mb-5">
+            <!-- Integrity guaranteed~! -->
+            <div class="overview-card bg-white shadow-purple rounded" style="max-width: 500px;">
+              <div class="text-center mb-3">
+                <b-icon icon="check-circle-fill" class="text-success h2 mb-0" />
+                <h4>Integrity guaranteed</h4>
+              </div>
+
+              <!-- ID -->
+              <p>
+                <span>
+                  <span class="label">ID</span>
+                  <span>{{ responseData.id }}</span>
+                </span>
+              </p>
+
+              <!-- Tag -->
+              <p>
+                <span>
+                  <span class="label">Tag</span>
+                  <span>{{ responseData.tag }}</span>
+                </span>
+
+                <b-button
+                  class="btn-clipboard ml-1"
+                  variant="outline-primary"
+                  v-b-tooltip.ds500 :title="clipboardText"
+                  @click="copyToClipboard(responseData.tag)"
+                >
+                  <b-icon icon="files" />
+                </b-button>
+              </p>
+
+              <!-- Hash -->
+              <p>
+                <span>
+                  <span class="label">Hash</span>
+                  <span>{{ responseData.hash }}</span>
+                </span>
+              </p>
+
+              <p>
+                <span
+                  class="label d-inline-block"
+                  v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
+                >
+                  @ {{ responseData.createdAt | formatDate }}
+                </span>
+              </p>
+            </div>
+          </b-col>
+
+          <div class="text-center">
+            <b-button
+              variant="outline-primary"
+              size="sm"
+              @click="clearData()"
+            >
+              Add integrity to more data
+            </b-button>
+          </div>
+        </template>
+
+        <div v-if="error" class="text-center text-warning">
+          {{ error }}
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -80,31 +145,53 @@ import JSON5 from 'json5'
 import { v4 as uuidv4 } from 'uuid'
 import { sha256 } from '../lib'
 
+import CustomTextarea from '~/components/CustomTextarea.vue';
+
 export default Vue.extend({
+  components: {
+    CustomTextarea
+  },
+
   data () {
     return {
       data: '',
       hash: '',
       tag: '',
       fileName: '',
-      responseData: null,
-      error: ''
+      responseData: {
+        id: '',
+        tag: '',
+        createdAt: '',
+        hash: ''
+      },
+      error: '',
+      clipboardText: 'Copy to clipboard',
     }
   },
+
   methods: {
     clearData () {
-      this.data = ''
-      this.hash = ''
-      this.fileName = ''
-      this.error = ''
-      this.tag = ''
-      this.responseData = null
+      this.data = '';
+      this.hash = '';
+      this.fileName = '';
+      this.error = '';
+      this.tag = '';
+      this.responseData = {
+        id: '',
+        tag: '',
+        createdAt: '',
+        hash: ''
+      };
     },
+
     copyToClipboard (text: string) {
       if (process.browser) {
+        this.clipboardText = 'Copied!';
+        setTimeout(() => { this.clipboardText = 'Copy to clipboard'; }, 5000);
         navigator.clipboard.writeText(text)
       }
     },
+
     async hashData () {
       if (!this.hash && this.data) {
         let digest: Buffer
@@ -123,6 +210,7 @@ export default Vue.extend({
         this.error = 'Incorrect inputs.'
       }
     },
+
     hashDocument (event: any) {
       const file = event.target.files && event.target.files[0] ? event.target.files[0] : null
       if (!file) {
@@ -139,6 +227,7 @@ export default Vue.extend({
       reader.readAsArrayBuffer(file)
       this.fileName = file.name
     },
+
     async sendToAuthtrail () {
       try {
         const res = await this.$axios.$post('/data', {
@@ -156,9 +245,11 @@ export default Vue.extend({
         console.log(e)
       }
     },
+
     verifyInputs () {
       return this.hash && this.tag
     },
+
     generateTag () {
       this.tag = uuidv4()
     }
@@ -193,51 +284,15 @@ export default Vue.extend({
     height: 250px;
     align-items: center;
     justify-content: center;
-    color: #aaaaaa;
 
     @media (max-width: 768px) {
       height: 100px;
     }
   }
 
-  .data-error {
-    text-align: center;
-    color: $errorColor;
-    margin-top: 35px;
-  }
-
-  .data-hash {
-    text-align: center;
-
-    .data-hash-status {
-      color: $primaryColor;
-      font-size: 23px;
-      margin-bottom: 35px;
-      font-weight: 600;
-
-      img {
-        margin-right: 11px;
-        padding-bottom: 2px;
-      }
-    }
-
-    .data-hash-hash {
-      font-size: 19px;
-      word-break: break-word;
-    }
-
-    .data-hash-clear {
-      cursor: pointer;
-      color: #aaaaaa;
-
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-  }
-
   .file-dropbox {
-    border: 2px dashed $primaryColor;
+    border: $border-width dashed $primary;
+    border-radius: $border-radius;
     position: relative;
     cursor: pointer;
     height: 250px;
@@ -245,11 +300,10 @@ export default Vue.extend({
 
     .file-dropbox-text {
       margin-top: 21px;
-      font-size: 16px;
 
       span {
-        color: $primaryColor;
-        font-weight: 600;
+        color: $primary;
+        font-weight: 700;
       }
     }
 
@@ -281,6 +335,23 @@ export default Vue.extend({
 
     &:hover {
       opacity: 0.7;
+    }
+  }
+
+  .overview-card {
+    padding: 1rem;
+
+    .label {
+      color: $gray-500;
+      display: block;
+      font-size: 0.875rem;
+      line-height: 1;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
     }
   }
 </style>

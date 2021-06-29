@@ -1,5 +1,3 @@
-$font-size-base: 1rem;
-
 .font-h1 {
   font-weight: 700;
   font-size: $font-size-base * 3;
@@ -30,6 +28,12 @@ $font-size-base: 1rem;
   line-height: $font-size-base * 1.5;
 }
 
+.font-h6 {
+  font-weight: 700;
+  font-size: $font-size-base * 0.875;
+  line-height: $font-size-base * 1.25;
+}
+
 .font-body {
   font-weight: normal;
   font-size: $font-size-base;
@@ -50,30 +54,47 @@ $font-size-base: 1rem;
   }
 }
 
+.font-label {
+  font-weight: normal;
+  font-size: $font-size-base * 0.875;
+  font-size: $font-size-base * 1;
+  color: $gray-500;
+}
+
 h1 {
   @extend .font-h1;
+  color: $dark;
 }
 
 h2 {
   @extend .font-h2;
+  color: $dark;
 }
 
 h3 {
   @extend .font-h3;
+  color: $dark;
 }
 
 h4 {
   @extend .font-h4;
+  color: $dark;
 }
 
 h5 {
   @extend .font-h5;
+  color: $dark;
+}
+
+h6 {
+  @extend .font-h6;
+  color: $dark;
 }
 
 a {
   @extend .font-body;
   font-weight: 700;
-  color: $primaryColor;
+  color: $primary;
 
   &:hover {
     text-decoration: none;
