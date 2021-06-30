@@ -1,16 +1,6 @@
 /**
   * Data input box styles.
   */
-.or-container {
-  display: flex;
-  height: 100px;
-  align-items: center;
-  justify-content: center;
-
-  @media (min-width: 768px) {
-    height: 250px;
-  }
-}
 
 .file-dropbox {
   border: $border-width dashed $primary;

@@ -8,21 +8,27 @@
       :class="[ scrollPosition >= 40 ? 'solid-nav' : 'transparent-nav']"
     >
       <b-container class="px-0375">
+        <!-- Logo -->
         <b-navbar-brand to="/" class="d-md-none">
           <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
         </b-navbar-brand>
 
+        <!-- Mobile hamburger -->
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
+        <!-- Links -->
         <b-collapse id="nav-collapse" is-nav class="justify-content-md-between">
+          <!-- Logo - positioning on desktop -->
           <b-navbar-brand to="/" class="d-none d-md-inline-block">
             <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
           </b-navbar-brand>
 
+          <!-- Centered nav items -->
           <b-navbar-nav>
             <b-nav-item to="/" class="mx-md-2">
               Enter data
             </b-nav-item>
+
             <b-nav-item to="/verify" class="mx-md-2">
               Verify data
             </b-nav-item>
