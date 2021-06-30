@@ -7,6 +7,7 @@
           id="tag"
           v-model="tag"
           label="Enter unique data identifier (tag)"
+          placeholder="my-own-unique-tag"
           no-resize
           :disabled="!!responseData.createdAt"
         >
