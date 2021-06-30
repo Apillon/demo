@@ -73,7 +73,7 @@
               <b-icon
                 v-if="responseData.verified"
                 icon="check-circle-fill"
-                class="text-success h2 mb-0"
+                class="text-success h2 mb-1"
               />
               <b-icon
                 v-else
@@ -160,7 +160,7 @@
           </div>
         </template>
 
-        <div v-if="error" class="text-center text-warning">
+        <div v-if="error" class="text-center text-warning mt-075">
           {{ error }}
         </div>
       </b-col>
@@ -247,7 +247,7 @@ export default Vue.extend({
         }
       } else {
         // todo error
-        this.error = 'Incorrect inputs.';
+        this.error = 'Incorrect input data';
       }
 
       this.loading = false;

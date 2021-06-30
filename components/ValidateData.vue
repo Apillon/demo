@@ -120,7 +120,7 @@
             <div class="text-center my-3">
               <b-icon
                 icon="check-circle-fill"
-                class="text-success h2 mb-0"
+                class="text-success h2 mb-1"
               />
               <h4>
                 Integrity guaranteed

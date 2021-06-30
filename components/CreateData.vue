@@ -79,7 +79,7 @@
           <!-- Integrity guaranteed~! -->
           <div class="overview-card bg-white shadow-purple rounded">
             <div class="text-center my-3">
-              <b-icon icon="check-circle-fill" class="text-success h2 mb-0" />
+              <b-icon icon="check-circle-fill" class="text-success h2 mb-1" />
               <h4>Integrity guaranteed</h4>
             </div>
 
@@ -139,7 +139,7 @@
           </div>
         </template>
 
-        <div v-if="error" class="text-center text-warning">
+        <div v-if="error" class="text-center text-warning mt-075">
           {{ error }}
         </div>
       </b-col>
@@ -219,7 +219,7 @@ export default Vue.extend({
         await this.sendToAuthtrail();
       } else {
         // todo error
-        this.error = 'Incorrect inputs.';
+        this.error = 'Incorrect input data';
       }
 
       this.loading = false;
@@ -256,7 +256,8 @@ export default Vue.extend({
         this.responseData = res.data;
       } catch (e) {
         // todo error
-        console.log(e);
+        this.error = 'Tag already exists';
+        // console.log(e);
       }
     },
 

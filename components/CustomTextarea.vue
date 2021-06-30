@@ -56,23 +56,12 @@ export default Vue.extend({
     label {
       @extend .font-label;
       margin-bottom: 0;
+      background: $white;
     }
   }
 
   &__input {
     padding-top: 1.75rem;
-  }
-
-  .data-input-switch {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    font-size: 13px;
-    color: #aaaaaa;
-
-    label {
-      padding-top: 2px;
-    }
   }
 
   ::-webkit-scrollbar {
@@ -84,7 +73,7 @@ export default Vue.extend({
   }
 
   ::-webkit-scrollbar-thumb {
-    background: blue;
+    background: $primary;
     border-radius: 0px;
   }
 }
