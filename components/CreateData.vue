@@ -2,11 +2,12 @@
   <div>
     <!-- Tag input -->
     <b-row class="mb-075">
-      <b-col cols="12" lg="5" md="6">
+      <b-col cols="12" lg="5" md="6" class="mb-2 mb-md-0">
         <custom-textarea
           id="tag"
           v-model="tag"
           label="Enter unique data identifier (tag)"
+          placeholder="my-own-unique-tag"
           no-resize
           :disabled="!!responseData.createdAt"
         >
@@ -20,43 +21,60 @@
           </template>
         </custom-textarea>
       </b-col>
+
+      <b-col lg="4" md="6">
+        <div class="font-description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+          <br>
+          <a href="#" @click="generateTag()">Generate random tag</a>
+        </div>
+      </b-col>
     </b-row>
 
     <!-- Data input -->
     <b-row>
-      <b-col cols="12" lg="5" md="6">
+      <b-col cols="12" lg="5" md="6" class="mb-2 mb-md-0">
+        <!-- Raw data -->
         <custom-textarea
+          v-if="isRawData"
           id="data-area"
           v-model="data"
           label="Enter data"
           height="250px"
           :disabled="!!responseData.createdAt"
         />
-      </b-col>
 
-      <b-col cols="12" lg="2" md="1">
-        <div class="or-container">or</div>
-      </b-col>
-
-      <b-col cols="12" lg="5" md="5">
-        <div class="file-dropbox" :class="{'not-allowed': !!responseData.createdAt}">
+        <!-- Document data -->
+        <div
+          v-else
+          class="file-dropbox"
+          :class="{'not-allowed': !!responseData.createdAt}"
+        >
           <input
             type="file"
             :disabled="!!responseData.createdAt"
             class="input-file"
             :class="{'not-allowed': !!responseData.createdAt}"
-            @change="hashDocument"
+            @change="setDocument"
           >
           <div class="text-center">
             <img src="/img/document-attach.png">
-            <p v-if="!fileName" class="file-dropbox-text">
+            <p v-if="!document || !document.name" class="file-dropbox-text">
               <span>Choose documents</span>
               <br> or drop here
             </p>
             <p v-else class="file-dropbox-text">
-              {{ fileName }}
+              {{ document.name }}
             </p>
           </div>
+        </div>
+      </b-col>
+
+      <b-col lg="4" md="6">
+        <div class="font-description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+          <br>
+          <a href="#" @click="isRawData = !isRawData">Toggle RAW data</a>
         </div>
       </b-col>
     </b-row>
@@ -170,9 +188,10 @@ export default Vue.extend({
   data () {
     return {
       data: '',
+      document: null as any,
+      isRawData: false,
       hash: '',
       tag: '',
-      fileName: '',
       responseData: {
         id: '',
         tag: '',
@@ -188,8 +207,8 @@ export default Vue.extend({
   methods: {
     clearData () {
       this.data = '';
+      this.document = null;
       this.hash = '';
-      this.fileName = '';
       this.error = '';
       this.tag = '';
       this.responseData = {
@@ -211,7 +230,9 @@ export default Vue.extend({
     async hashData () {
       this.loading = true;
 
-      if (!this.hash && this.data) {
+      this.hash = '';
+
+      if (this.isRawData && this.data) {
         let digest: Buffer;
         try {
           digest = sha256(JSON5.stringify(JSON5.parse(this.data)));
@@ -219,6 +240,8 @@ export default Vue.extend({
           digest = sha256(this.data);
         }
         this.hash = digest.toString('hex');
+      } else if (!this.isRawData && this.document) {
+        this.hash = await this.hashDocument();
       }
 
       if (this.verifyInputs()) {
@@ -232,21 +255,26 @@ export default Vue.extend({
       this.loading = false;
     },
 
-    hashDocument (event: any) {
-      const file = event.target.files && event.target.files[0] ? event.target.files[0] : null;
-      if (!file) {
-        return
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.result) {
-          const buffer = Buffer.from(reader.result);
-          const digest = sha256(buffer);
-          this.hash = digest.toString('hex');
+    setDocument(event: any) {
+      this.document = event.target.files && event.target.files[0] ? event.target.files[0] : null;
+    },
+
+    hashDocument(): Promise<string> {
+      return new Promise(resolve => {
+        if (!this.document || !(this.document instanceof Blob)) {
+          return resolve('');
         }
-      }
-      reader.readAsArrayBuffer(file);
-      this.fileName = file.name;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.result) {
+            const buffer = Buffer.from(reader.result);
+            const digest = sha256(buffer);
+            return resolve(digest.toString('hex'));
+          }
+        }
+        reader.readAsArrayBuffer(this.document);
+      });
     },
 
     downloadData () {

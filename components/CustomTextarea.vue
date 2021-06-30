@@ -13,6 +13,7 @@
       :value="value"
       :no-resize="noResize"
       :disabled="disabled"
+      :placeholder="placeholder"
       class="custom-textarea__input"
       :style="{ height }"
       @input="$emit('input', $event)"
@@ -29,6 +30,7 @@ export default Vue.extend({
     value: { type: String, default: '' },
     height: { type: String, default: '100px' },
     label: { type: String, default: 'Enter data' },
+    placeholder: { type: String, default: '' },
     noResize: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
   }
@@ -46,7 +48,7 @@ export default Vue.extend({
 
   &__top {
     position: absolute;
-    padding: 0.5rem 1.125rem 0;
+    padding: 0.75rem 1.125rem 0;
 
     width: 100%;
     display: flex;

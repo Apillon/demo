@@ -56,8 +56,15 @@
 
 .font-label {
   font-weight: normal;
-  font-size: $font-size-base * 0.875;
   font-size: $font-size-base * 1;
+  line-height: $font-size-base * 1;
+  color: $gray-500;
+}
+
+.font-description {
+  font-weight: normal;
+  font-size: $font-size-base * 0.875;
+  line-height: $font-size-base * 1;
   color: $gray-500;
 }
 
