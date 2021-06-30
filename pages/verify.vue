@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="row mb-5 pt-5 d-flex">
-      <h1 class="col-12 col-sm-6 mb-0">
+    <div class="row mb-5 d-flex">
+      <h1 class="col-6 mb-0">
         Demo
       </h1>
 
-      <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
+      <div class="col-6 d-flex justify-content-end align-items-center">
         <b-button
           size="sm"
           variant="outline-primary"
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="bg-white shadow-purple rounded-lg p-4">
+    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4">
       <h3 class="mb-4">
         Verify data
       </h3>
@@ -27,7 +27,7 @@
     <div
       v-if="validateData"
       id="second-step"
-      class="bg-white shadow-purple rounded-lg p-4 mt-5"
+      class="bg-white shadow-purple rounded-lg p-075 p-sm-4 mt-5"
     >
       <h3 class="mb-4">
         Manual verify

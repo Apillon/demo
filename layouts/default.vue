@@ -5,8 +5,13 @@
       :class="[ scrollPosition >= 40 ? 'solid-nav' : 'transparent-nav']"
     >
       <div class="container">
-        <a class="navbar-brand" href="https://authtrail.com/" target="_blank" rel="noopener noreferrer">
-          <img src="/img/logo.svg" width="166" height="45" class="d-inline-block align-top" alt="">
+        <a
+          class="navbar-brand mx-auto mx-sm-0"
+          href="https://authtrail.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
         </a>
       </div>
     </nav>
@@ -54,7 +59,7 @@ export default {
 
 <style lang="scss" scoped>
   .main-container {
-    margin-top: 130px;
+    margin-top: 135px;
   }
 
   .transparent-nav {
