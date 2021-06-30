@@ -78,7 +78,7 @@
               <b-icon
                 v-else
                 icon="x-circle-fill"
-                class="text-warning h2 mb-0"
+                class="text-warning h2 mb-1"
               />
               <h4>
                 {{ responseData.verified ? 'Integrity guaranteed' : 'Integrity compromised' }}
