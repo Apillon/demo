@@ -1,7 +1,7 @@
 <template>
   <div class="custom-textarea">
     <div class="custom-textarea__top">
-      <label :for="id">
+      <label :for="id" :class="!disabled ? 'bg-white' : 'bg-transparent'">
         {{ label }}
       </label>
 
@@ -56,7 +56,6 @@ export default Vue.extend({
     label {
       @extend .font-label;
       margin-bottom: 0;
-      background: $white;
     }
   }
 
