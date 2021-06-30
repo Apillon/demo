@@ -1,33 +1,50 @@
 <template>
   <div>
-    <div class="row data-hash-row">
-      <div class="col-12 col-md-5 tag-input-box">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter unique data identifier (tag)
-          </p>
-          <b-icon icon="arrow-repeat" class="generate-tag" @click="generateTag()"></b-icon>
-          <textarea ref="data-hash-input" v-model="tag" class="data-input-textarea" />
-        </div>
-      </div>
-    </div>
-    <div class="row data-hash-row mt-1">
-      <div class="col-12 col-md-5 data-input-box">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter data
-          </p>
-          <textarea ref="data-hash-input" v-model="data" class="data-input-textarea" />
-        </div>
-      </div>
-      <div class="or-container col-12 col-md-2">
-        <span>or</span>
-      </div>
-      <div class="col-12 col-md-5 px-0">
-        <div class="file-dropbox">
+    <!-- Tag input -->
+    <b-row class="mb-075">
+      <b-col cols="12" lg="5" md="6">
+        <custom-textarea
+          id="tag"
+          v-model="tag"
+          label="Enter unique data identifier (tag)"
+          no-resize
+          :disabled="!!responseData.createdAt"
+        >
+          <template #after-label>
+            <b-icon
+              icon="arrow-repeat"
+              class="pointer text-primary"
+              v-b-tooltip.ds500 title="Generate tag"
+              @click="generateTag()"
+            />
+          </template>
+        </custom-textarea>
+      </b-col>
+    </b-row>
+
+    <!-- Data input -->
+    <b-row>
+      <b-col cols="12" lg="5" md="6">
+        <custom-textarea
+          id="data-area"
+          v-model="data"
+          label="Enter data"
+          height="250px"
+          :disabled="!!responseData.createdAt"
+        />
+      </b-col>
+
+      <b-col cols="12" lg="2" md="1">
+        <div class="or-container">or</div>
+      </b-col>
+
+      <b-col cols="12" lg="5" md="5">
+        <div class="file-dropbox" :class="{'not-allowed': !!responseData.createdAt}">
           <input
             type="file"
+            :disabled="!!responseData.createdAt"
             class="input-file"
+            :class="{'not-allowed': !!responseData.createdAt}"
             @change="hashDocument"
           >
           <div class="text-center">
@@ -41,36 +58,92 @@
             </p>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row d-flex justify-content-center mt-5">
-      <b-button
-        v-if="!responseData"
-        variant="primary"
-        @click="hashData"
-      >
-        Add integrity
-      </b-button>
-      <div v-else class="col-12 data-hash">
-        <p class="data-hash-status">
-          <img src="/img/check-hashed.png">
-          Integrity guaranteed
-        </p>
-        <div class="data-hash-hash">
-          <p>{{ responseData.id }}</p>
-          <p>{{ responseData.tag }}</p>
-          <p>{{ responseData.createdAt }}</p>
-          <p>{{ responseData.hash }}</p>
-          <img class="copy-icon" src="/img/copy.svg" @click="copyToClipboard(responseData.tag)">
+      </b-col>
+    </b-row>
+
+    <!-- Main action and response output -->
+    <b-row class="mt-5">
+      <b-col>
+        <div v-if="!responseData.createdAt" class="text-center">
+          <b-button
+            variant="primary"
+            :disabled="loading"
+            @click="hashData"
+          >
+            Add Integrity
+            <b-spinner v-if="loading" small class="btn-spinner" />
+          </b-button>
         </div>
-        <p class="data-hash-clear" @click="clearData()">
-          Add integrity to more data
-        </p>
-      </div>
-      <div v-if="error" class="col-12 data-error">
-        {{ error }}
-      </div>
-    </div>
+
+        <template v-else>
+          <!-- Integrity guaranteed~! -->
+          <div class="overview-card bg-white shadow-purple rounded">
+            <div class="text-center my-3">
+              <b-icon icon="check-circle-fill" class="text-success h2 mb-1" />
+              <h4>Integrity guaranteed</h4>
+            </div>
+
+            <!-- ID -->
+            <p>
+              <span>
+                <span class="label">ID</span>
+                <span>{{ responseData.id }}</span>
+              </span>
+            </p>
+
+            <!-- Tag -->
+            <p>
+              <span>
+                <span class="label">Tag</span>
+                <span>{{ responseData.tag }}</span>
+              </span>
+
+              <b-button
+                class="btn-clipboard ml-1"
+                variant="outline-primary"
+                v-b-tooltip.ds500 :title="clipboardText"
+                @click="copyToClipboard(responseData.tag)"
+              >
+                <b-icon icon="files" />
+              </b-button>
+            </p>
+
+            <!-- Hash -->
+            <p>
+              <span>
+                <span class="label">Hash</span>
+                <span>{{ responseData.hash }}</span>
+              </span>
+            </p>
+
+            <!-- Created at -->
+            <p>
+              <span
+                class="label d-inline-block"
+                v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
+              >
+                @ {{ responseData.createdAt | formatDate }}
+              </span>
+            </p>
+          </div>
+
+          <!-- Go next -->
+          <div class="text-center">
+            <b-button
+              variant="outline-primary"
+              size="sm"
+              @click="clearData()"
+            >
+              Add integrity to more data
+            </b-button>
+          </div>
+        </template>
+
+        <div v-if="error" class="text-center text-warning mt-075">
+          {{ error }}
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -80,65 +153,95 @@ import JSON5 from 'json5'
 import { v4 as uuidv4 } from 'uuid'
 import { sha256 } from '../lib'
 
+import CustomTextarea from '~/components/CustomTextarea.vue';
+
 export default Vue.extend({
+  components: {
+    CustomTextarea
+  },
+
   data () {
     return {
       data: '',
       hash: '',
       tag: '',
       fileName: '',
-      responseData: null,
-      error: ''
+      responseData: {
+        id: '',
+        tag: '',
+        createdAt: '',
+        hash: ''
+      },
+      error: '',
+      clipboardText: 'Copy to clipboard',
+      loading: false,
     }
   },
+
   methods: {
     clearData () {
-      this.data = ''
-      this.hash = ''
-      this.fileName = ''
-      this.error = ''
-      this.tag = ''
-      this.responseData = null
+      this.data = '';
+      this.hash = '';
+      this.fileName = '';
+      this.error = '';
+      this.tag = '';
+      this.responseData = {
+        id: '',
+        tag: '',
+        createdAt: '',
+        hash: ''
+      };
     },
+
     copyToClipboard (text: string) {
       if (process.browser) {
-        navigator.clipboard.writeText(text)
+        this.clipboardText = 'Copied!';
+        setTimeout(() => { this.clipboardText = 'Copy to clipboard'; }, 5000);
+        navigator.clipboard.writeText(text);
       }
     },
+
     async hashData () {
+      this.loading = true;
+
       if (!this.hash && this.data) {
-        let digest: Buffer
+        let digest: Buffer;
         try {
-          digest = sha256(JSON5.stringify(JSON5.parse(this.data)))
+          digest = sha256(JSON5.stringify(JSON5.parse(this.data)));
         } catch {
-          digest = sha256(this.data)
+          digest = sha256(this.data);
         }
-        this.hash = digest.toString('hex')
+        this.hash = digest.toString('hex');
       }
+
       if (this.verifyInputs()) {
-        this.error = ''
-        await this.sendToAuthtrail()
+        this.error = '';
+        await this.sendToAuthtrail();
       } else {
         // todo error
-        this.error = 'Incorrect inputs.'
+        this.error = 'Incorrect input data';
       }
+
+      this.loading = false;
     },
+
     hashDocument (event: any) {
-      const file = event.target.files && event.target.files[0] ? event.target.files[0] : null
+      const file = event.target.files && event.target.files[0] ? event.target.files[0] : null;
       if (!file) {
         return
       }
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = () => {
         if (reader.result) {
-          const buffer = Buffer.from(reader.result)
-          const digest = sha256(buffer)
-          this.hash = digest.toString('hex')
+          const buffer = Buffer.from(reader.result);
+          const digest = sha256(buffer);
+          this.hash = digest.toString('hex');
         }
       }
-      reader.readAsArrayBuffer(file)
-      this.fileName = file.name
+      reader.readAsArrayBuffer(file);
+      this.fileName = file.name;
     },
+
     async sendToAuthtrail () {
       try {
         const res = await this.$axios.$post('/data', {
@@ -149,138 +252,22 @@ export default Vue.extend({
           headers: {
             'x-api-key': process.env.API_KEY
           }
-        })
-        this.responseData = res.data
+        });
+        this.responseData = res.data;
       } catch (e) {
         // todo error
-        console.log(e)
+        this.error = 'Tag already exists';
+        // console.log(e);
       }
     },
+
     verifyInputs () {
-      return this.hash && this.tag
+      return this.hash && this.tag;
     },
+
     generateTag () {
-      this.tag = uuidv4()
+      this.tag = uuidv4();
     }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  @import "../assets/sass/abstracts/variables";
-
-  .generate-tag {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    color: $primaryColor;
-  }
-
-  .generate-tag:hover {
-    cursor: pointer;
-  }
-
-  .data-input-box {
-    height: 250px;
-  }
-
-  .tag-input-box {
-    height: 100px;
-  }
-
-  .or-container {
-    display: flex;
-    height: 250px;
-    align-items: center;
-    justify-content: center;
-    color: #aaaaaa;
-
-    @media (max-width: 768px) {
-      height: 100px;
-    }
-  }
-
-  .data-error {
-    text-align: center;
-    color: $errorColor;
-    margin-top: 35px;
-  }
-
-  .data-hash {
-    text-align: center;
-
-    .data-hash-status {
-      color: $primaryColor;
-      font-size: 23px;
-      margin-bottom: 35px;
-      font-weight: 600;
-
-      img {
-        margin-right: 11px;
-        padding-bottom: 2px;
-      }
-    }
-
-    .data-hash-hash {
-      font-size: 19px;
-      word-break: break-word;
-    }
-
-    .data-hash-clear {
-      cursor: pointer;
-      color: #aaaaaa;
-
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-  }
-
-  .file-dropbox {
-    border: 2px dashed $primaryColor;
-    position: relative;
-    cursor: pointer;
-    height: 250px;
-    padding: 40px;
-
-    .file-dropbox-text {
-      margin-top: 21px;
-      font-size: 16px;
-
-      span {
-        color: $primaryColor;
-        font-weight: 600;
-      }
-    }
-
-    &:hover {
-      .file-dropbox-text {
-        span {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-
-  .input-file {
-    top: 0;
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    z-index: 10;
-    position: absolute;
-  }
-
-  .copy-icon {
-    height: 100%;
-    width: 24px;
-    padding-bottom: 3px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-</style>

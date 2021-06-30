@@ -42,7 +42,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '~/plugins/axios'
+    '~/plugins/axios',
+    '~/plugins/global'
   ],
   /*
   ** Auto import components

@@ -5,13 +5,22 @@
       :class="[ scrollPosition >= 40 ? 'solid-nav' : 'transparent-nav']"
     >
       <div class="container">
-        <a class="navbar-brand" href="https://authtrail.com/" target="_blank" rel="noopener noreferrer">
-          <img src="/img/logo.svg" width="166" height="45" class="d-inline-block align-top" alt="">
+        <a
+          class="navbar-brand mx-auto mx-sm-0"
+          href="https://authtrail.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
         </a>
       </div>
     </nav>
-    <Nuxt />
-    <footer class="pt-5 pb-5">
+
+    <div class="container main-container">
+      <Nuxt />
+    </div>
+
+    <footer class="pt-5 pb-5 mt-5">
       <div class="text-center">
         <div class="at-verified">
           <img src="/img/verified.svg" alt="Verified by AuthTrail" style="max-width: 127px;">
@@ -48,7 +57,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .main-container {
+    margin-top: 135px;
+  }
+
   .transparent-nav {
     background: transparent;
     padding: 40px 0px;

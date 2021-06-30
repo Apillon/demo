@@ -1,54 +1,71 @@
 /**
   * Data input box styles.
   */
-.data-input-box,
-.tag-input-box {
-  height: 100%;
-  padding: 0;
+.or-container {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
 
-  .data-input-inner-box {
-    height: 100%;
-    border: 2px solid #E4E4E4;
-    padding: 18px 20px 18px 20px;
+  @media (min-width: 768px) {
+    height: 250px;
   }
+}
 
-  .data-input-label {
-    font-size: 13px;
-    margin-bottom: 0;
-    color: #aaaaaa;
-  }
+.file-dropbox {
+  border: $border-width dashed $primary;
+  border-radius: $border-radius;
+  position: relative;
+  cursor: pointer;
+  height: 250px;
+  padding: 40px;
 
-  .data-input-switch {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    font-size: 13px;
-    color: #aaaaaa;
+  .file-dropbox-text {
+    margin-top: 21px;
 
-    label {
-      padding-top: 2px;
+    span {
+      color: $primary;
+      font-weight: 700;
     }
   }
 
-  .data-input-textarea {
-    padding-top: 10px;
+  .input-file {
+    top: 0;
+    left: 0;
+    opacity: 0;
     width: 100%;
-    height: calc(100% - 18px);
-    border: 0;
-    outline: 0;
-    resize: none;
+    height: 100%;
+    cursor: pointer;
+    z-index: 10;
+    position: absolute;
   }
 
-  ::-webkit-scrollbar {
-    width: 4px;
+  &:hover {
+    .file-dropbox-text {
+      span {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.overview-card {
+  padding: 1rem;
+  margin: 0 auto 3rem;
+  max-width: 530px;
+
+  .label {
+    color: $gray-500;
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1;
   }
 
-  ::-webkit-scrollbar-track {
-    border-radius: 0px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: $primaryColor;
-    border-radius: 0px;
+  p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 }

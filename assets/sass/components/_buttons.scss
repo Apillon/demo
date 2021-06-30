@@ -1,24 +1,28 @@
 /**
   * Button styles.
   */
-.btn {
-  border-radius: 0;
-  border: 0;
-  font-size: 16px;
-  font-weight: 600;
-  width: 154px;
-  height: 51px;
-  box-shadow: none !important;
+button.btn,
+a.btn {
+  &:not(.btn-sm) {
+    @extend .font-h5;
+  }
 
-
-  &.btn-primary {
-    color: $white;
-    background-color: $primaryColor;
-
-    &:hover {
-      border: 0;
-      background-color: rgba($primaryColor, 0.9);
-    }
+  &.btn-sm {
+    @extend .font-h6;
   }
 }
 
+button.btn.btn-clipboard,
+a.btn.btn-clipboard {
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+}
+
+.btn-spinner {
+  margin-bottom: 2px;
+  margin-left: 4px;
+}
