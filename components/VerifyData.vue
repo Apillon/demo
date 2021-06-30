@@ -64,7 +64,7 @@
         <template v-else>
           <!-- Integrity guaranteed~! -->
           <div class="overview-card bg-white shadow-purple rounded">
-            <div class="text-center mb-3">
+            <div class="text-center my-3">
               <b-icon
                 v-if="responseData.verified"
                 icon="check-circle-fill"
@@ -101,8 +101,18 @@
             <p>
               <span>
                 <span class="label">TX ID</span>
-                <span>
-                  {{ responseData.txid ? `https://moonbase-blockscout.testnet.moonbeam.network/tx/${responseData.txid}` : 'Not yet anchored' }}
+
+                <a
+                  v-if="responseData.txid"
+                  :href="`https://moonbase-blockscout.testnet.moonbeam.network/tx/${responseData.txid}`"
+                  target="_blank"
+                >
+                  {{ responseData.txid }}
+                </a>
+
+                <span v-else>
+                  Not yet anchored
+                  <b-spinner variant="dark" small style="margin-bottom: 2px;" />
                 </span>
               </span>
             </p>
@@ -118,8 +128,22 @@
             </p>
           </div>
 
-          <!-- Go next -->
           <div class="text-center">
+            <!-- Open manual verify -->
+            <b-button
+              v-if="responseData.txid && !isDetailsOpen"
+              variant="primary"
+              size="sm"
+              class="d-block d-md-inline-block mb-2 mb-md-0 mx-auto"
+              @click="
+                $emit('verified', deepResponseData);
+                isDetailsOpen = true;
+              "
+            >
+              View verification details
+            </b-button>
+
+            <!-- Go next -->
             <b-button
               variant="outline-primary"
               size="sm"
@@ -167,6 +191,7 @@ export default Vue.extend({
       error: '',
       clipboardText: 'Copy to clipboard',
       loading: false,
+      isDetailsOpen: false,
     }
   },
 
@@ -184,6 +209,8 @@ export default Vue.extend({
         verified: false
       };
       this.deepResponseData = null;
+      this.$emit('verified', null);
+      this.isDetailsOpen = false;
     },
 
     copyToClipboard (text: string) {
@@ -210,7 +237,7 @@ export default Vue.extend({
       if (this.verifyInputs()) {
         this.error = '';
         await this.verify();
-        if ((this.responseData as any)?.txid) {
+        if (this.responseData.txid) {
           await this.verifyDeep();
         }
       } else {
@@ -266,7 +293,7 @@ export default Vue.extend({
           }
         });
         this.deepResponseData = res.data;
-        this.$emit('verified', this.deepResponseData);
+        // this.$emit('verified', this.deepResponseData);
       } catch (e) {
         // todo error
         console.log(e);
@@ -279,76 +306,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  @import "../assets/sass/abstracts/variables";
-
-  .or-container {
-    display: flex;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-
-    @media (min-width: 768px) {
-      height: 250px;
-    }
-  }
-
-  .file-dropbox {
-    border: $border-width dashed $primary;
-    border-radius: $border-radius;
-    position: relative;
-    cursor: pointer;
-    height: 250px;
-    padding: 40px;
-
-    .file-dropbox-text {
-      margin-top: 21px;
-
-      span {
-        color: $primary;
-        font-weight: 700;
-      }
-    }
-
-    &:hover {
-      .file-dropbox-text {
-        span {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-
-  .input-file {
-    top: 0;
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    z-index: 10;
-    position: absolute;
-  }
-
-  .overview-card {
-    padding: 1rem;
-    margin: 0 auto 3rem;
-    max-width: 530px;
-
-    .label {
-      color: $gray-500;
-      display: block;
-      font-size: 0.875rem;
-      line-height: 1;
-    }
-
-    p {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      word-break: break-word;
-      word-wrap: break-word;
-    }
-  }
-</style>

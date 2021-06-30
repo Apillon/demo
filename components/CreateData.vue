@@ -72,7 +72,7 @@
         <template v-else>
           <!-- Integrity guaranteed~! -->
           <div class="overview-card bg-white shadow-purple rounded">
-            <div class="text-center mb-3">
+            <div class="text-center my-3">
               <b-icon icon="check-circle-fill" class="text-success h2 mb-0" />
               <h4>Integrity guaranteed</h4>
             </div>
@@ -264,76 +264,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  @import "../assets/sass/abstracts/variables";
-
-  .or-container {
-    display: flex;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-
-    @media (min-width: 768px) {
-      height: 250px;
-    }
-  }
-
-  .file-dropbox {
-    border: $border-width dashed $primary;
-    border-radius: $border-radius;
-    position: relative;
-    cursor: pointer;
-    height: 250px;
-    padding: 40px;
-
-    .file-dropbox-text {
-      margin-top: 21px;
-
-      span {
-        color: $primary;
-        font-weight: 700;
-      }
-    }
-
-    &:hover {
-      .file-dropbox-text {
-        span {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-
-  .input-file {
-    top: 0;
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    z-index: 10;
-    position: absolute;
-  }
-
-  .overview-card {
-    padding: 1rem;
-    margin: 0 auto 3rem;
-    max-width: 530px;
-
-    .label {
-      color: $gray-500;
-      display: block;
-      font-size: 0.875rem;
-      line-height: 1;
-    }
-
-    p {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      word-break: break-word;
-      word-wrap: break-word;
-    }
-  }
-</style>

@@ -27,7 +27,7 @@
     <div
       v-if="validateData"
       id="second-step"
-      class="bg-white shadow-purple rounded-lg p-4"
+      class="bg-white shadow-purple rounded-lg p-4 mt-5"
     >
       <h3 class="mb-4">
         Hash data - manual verify
@@ -58,7 +58,7 @@ export default Vue.extend({
   methods: {
     handleValidateData (data: any) {
       this.validateData = data;
-      if (process.browser) {
+      if (process.browser && !!this.validateData) {
         this.$nextTick(() => {
           const VueScrollTo = require('vue-scrollto');
           const element = document.getElementById('second-step');
