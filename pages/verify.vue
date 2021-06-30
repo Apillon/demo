@@ -1,20 +1,8 @@
 <template>
   <div>
-    <div class="row mb-5 d-flex">
-      <h1 class="col-6 mb-0">
-        Demo
-      </h1>
-
-      <div class="col-6 d-flex justify-content-end align-items-center">
-        <b-button
-          size="sm"
-          variant="outline-primary"
-          to="/"
-        >
-          Enter data
-        </b-button>
-      </div>
-    </div>
+    <h1 class="mb-5">
+      Demo
+    </h1>
 
     <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4">
       <h3 class="mb-4">

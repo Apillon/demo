@@ -5,6 +5,7 @@ button.btn,
 a.btn {
   &:not(.btn-sm) {
     @extend .font-h5;
+    line-height: 1.3rem;
   }
 
   &.btn-sm {
