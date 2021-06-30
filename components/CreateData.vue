@@ -129,6 +129,13 @@
 
           <!-- Go next -->
           <div class="text-center">
+             <b-button
+              variant="primary"
+              size="sm"
+              @click="downloadData()"
+            >
+              Download data
+            </b-button>
             <b-button
               variant="outline-primary"
               size="sm"
@@ -240,6 +247,28 @@ export default Vue.extend({
       }
       reader.readAsArrayBuffer(file);
       this.fileName = file.name;
+    },
+
+    downloadData () {
+      let text = `Tag: ${this.tag}\n`;
+      text = text + `Hash: ${this.hash}\n`;
+      text = text + `Date: ${new Date(this.responseData.createdAt).toISOString()}\n`;
+      if (this.fileName) {
+        text = text + `Filename: ${this.fileName}`;
+      }
+      const filename = `data-${this.tag}.txt`;
+      const link = document.createElement("a");
+      link.setAttribute("target", "_blank");
+      if(Blob !== undefined) {
+        const blob = new Blob([text], { type: "text/plain" });
+        link.setAttribute("href", URL.createObjectURL(blob));
+      } else {
+        link.setAttribute("href","data:text/plain," + encodeURIComponent(text));
+      }
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
 
     async sendToAuthtrail () {
