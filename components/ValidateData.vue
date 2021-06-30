@@ -1,135 +1,164 @@
 <template>
   <div>
-    <div class="row first-row">
-      <div class="col-12 col-md-6 data-input-box pr-0 pr-md-2 pr-lg-4" @click="$refs['data-hashed-input'].focus()">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter hash
-          </p>
-          <textarea
-            ref="data-hashed-input"
+    <b-row>
+      <!-- Hash -->
+      <b-col md="6" class="mb-075">
+        <div>
+          <custom-textarea
+            id="hash"
             v-model="hash"
-            class="data-input-textarea"
+            label="Enter hash"
+            no-resize
+            height="110px"
             @input="validationErrors.hash = ''"
           />
+
+          <p v-if="validationErrors.hash" class="validation-error">
+            {{ validationErrors.hash }}
+          </p>
         </div>
-        <p v-if="validationErrors.hash" class="validation-error">
-          {{ validationErrors.hash }}
-        </p>
-      </div>
-      <!-- <b-form-checkbox
-        v-if="connected"
-        v-model="useMetamask"
-        class="metamask-switch mb-1 d-block d-sm-none"
-        switch
-        @change="useMetamask = !useMetamask; anchorData = '';"
-      >
-        Use Metamask
-      </b-form-checkbox> -->
-      <div class="col-12 col-md-6 data-input-box pl-0 pl-md-2 pl-lg-4" @click="$refs['data-hash-anchor'].focus()">
-        <div class="data-input-inner-box">
-          <p
-            class="data-input-label"
-            v-text="useMetamask ? 'Enter transaction ID' : 'Enter anchor data'"
-          />
-          <!-- <b-form-checkbox
-            v-if="connected"
-            v-model="useMetamask"
-            class="data-input-switch d-none d-sm-block"
-            switch
-            @change="useMetamask = !useMetamask; anchorData = '';"
-          >
-            Use MetaMask
-          </b-form-checkbox> -->
-          <textarea
-            ref="data-hash-anchor"
+      </b-col>
+
+      <!-- Anchor data -->
+      <b-col md="6" class="mb-075">
+        <div>
+          <custom-textarea
+            id="anchor"
             v-model="anchorData"
-            class="data-input-textarea"
+            :label="useMetamask ? 'Enter transaction ID' : 'Enter anchor data'"
+            no-resize
+            height="110px"
             @input="validationErrors.anchorData = ''"
           />
-        </div>
-        <p v-if="validationErrors.anchorData" class="validation-error">
-          {{ validationErrors.anchorData }}
-        </p>
-      </div>
-    </div>
-    <div class="row second-row">
-      <div class="col-12 col-md-6 data-input-box pr-0 pr-md-2 pr-lg-4" @click="$refs['data-blocks-input'].focus()">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter blocks
+
+          <p v-if="validationErrors.anchorData" class="validation-error">
+            {{ validationErrors.anchorData }}
           </p>
-          <textarea
-            ref="data-blocks-input"
+        </div>
+
+        <!-- <b-form-checkbox
+          v-if="connected"
+          v-model="useMetamask"
+          class="metamask-switch mb-1 d-block d-sm-none"
+          switch
+          @change="useMetamask = !useMetamask; anchorData = '';"
+        >
+          Use Metamask
+        </b-form-checkbox> -->
+      </b-col>
+
+      <!-- Blocks -->
+      <b-col md="6" class="mb-075">
+        <div>
+          <custom-textarea
+            id="blocks"
             v-model="blocks"
-            class="data-input-textarea"
-            @input="validateData.blocks = ''"
+            label="Enter blocks"
+            height="250px"
+            @input="validationErrors.blocks = ''"
           />
-        </div>
-        <p v-if="validationErrors.blocks" class="validation-error">
-          {{ validationErrors.blocks }}
-        </p>
-      </div>
-      <div class="col-12 col-md-6 data-input-box pl-0 pl-md-2 pl-lg-4" @click="$refs['data-merkle-input'].focus()">
-        <div class="data-input-inner-box">
-          <p class="data-input-label">
-            Enter merkle proof
+
+          <p v-if="validationErrors.blocks" class="validation-error">
+            {{ validationErrors.blocks }}
           </p>
-          <textarea
-            ref="data-merkle-input"
+        </div>
+      </b-col>
+
+      <!-- Merkle proof -->
+      <b-col md="6" class="mb-075">
+        <div>
+          <custom-textarea
+            id="merkleProof"
             v-model="merkleProof"
-            class="data-input-textarea"
+            label="Enter merkle proof"
+            height="250px"
             @input="validationErrors.merkleProof = ''"
           />
+
+          <p v-if="validationErrors.merkleProof" class="validation-error">
+            {{ validationErrors.merkleProof }}
+          </p>
         </div>
-        <p v-if="validationErrors.merkleProof" class="validation-error">
-          {{ validationErrors.merkleProof }}
-        </p>
-      </div>
-    </div>
-    <div v-if="verifyError" class="row d-flex justify-content-center mb-5">
-      <div v-if="verifyError === verifyErrors.GENERAL" class="verify-error text-center">
-        There was a problem while verifying data. Please make sure that you entered correct values in their corresponding fields and try again.
-      </div>
-      <div v-else-if="verifyError === verifyErrors.NETWORK" class="verify-error text-center">
-        There was a problem while verifying data. Please make sure that MetaMask is connected to Main Ethereum network.
-      </div>
-    </div>
-    <div class="row d-flex justify-content-center">
-      <b-button
-        v-if="!verified"
-        variant="primary"
-        @click="validate"
-      >
-        Verify
-      </b-button>
-      <div v-else class="col-12 text-center">
-        <p class="verified-status">
-          <img src="/img/check-verified.png">
-          Verified
-        </p>
-        <p class="verify-clear" @click="clearData()">
-          clear data
-        </p>
-      </div>
-    </div>
+      </b-col>
+    </b-row>
+
+    <!-- Errors -->
+    <b-row v-if="verifyError" class="mt-5">
+      <b-col md="6" class="mx-auto" style="max-width: 530px;">
+        <div v-if="verifyError === verifyErrors.GENERAL" class="text-center">
+          There was a problem while verifying data. Please make sure that you entered correct values in their corresponding fields and try again.
+        </div>
+
+        <div v-else-if="verifyError === verifyErrors.NETWORK" class="text-center">
+          There was a problem while verifying data. Please make sure that MetaMask is connected to Main Ethereum network.
+        </div>
+      </b-col>
+    </b-row>
+
+    <!-- Main action and response output -->
+    <b-row class="mt-5">
+      <b-col>
+        <div v-if="!verified" class="text-center">
+          <b-button
+            v-if="!verified"
+            variant="primary"
+            @click="validate"
+          >
+            <b-spinner v-if="loading" />
+            Verify
+          </b-button>
+        </div>
+
+        <template v-else>
+          <!-- Integrity guaranteed~! -->
+          <div class="overview-card bg-white shadow-purple rounded">
+            <div class="text-center my-3">
+              <b-icon
+                icon="check-circle-fill"
+                class="text-success h2 mb-0"
+              />
+              <h4>
+                Integrity guaranteed
+              </h4>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <b-button
+              variant="outline-primary"
+              size="sm"
+              @click="clearData()"
+            >
+              Clear data
+            </b-button>
+          </div>
+        </template>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import JSON5 from 'json5'
-import { blockHash, merkleRoot, validateJSON } from '../lib'
-import { Web3Helper } from '../lib/web3'
+import Vue from 'vue';
+import JSON5 from 'json5';
+import { blockHash, merkleRoot, validateJSON } from '../lib';
+import { Web3Helper } from '../lib/web3';
+
+import CustomTextarea from '~/components/CustomTextarea.vue';
 
 export default Vue.extend({
+  components: {
+    CustomTextarea,
+  },
+
   props: {
     validateData: {
       type: Object,
       default: {}
     }
   },
-  data () {
+
+  data() {
     return {
       web3: new Web3Helper(),
       connected: false,
@@ -140,6 +169,7 @@ export default Vue.extend({
       blocks: '',
       verified: false,
       verifyError: 0,
+      loading: false,
       validationErrors: {
         hash: '',
         anchorData: '',
@@ -209,36 +239,40 @@ export default Vue.extend({
       }
     },
     verify () {
-      this.verifyError = 0
+      this.loading = true;
+      this.verifyError = 0;
 
-      const proof = JSON5.parse(this.merkleProof)
-      const root = merkleRoot(proof, this.hash)
-      const blocks = JSON5.parse(this.blocks)
-      const verified = blockHash(blocks, root)
+      const proof = JSON5.parse(this.merkleProof);
+      const root = merkleRoot(proof, this.hash);
+      const blocks = JSON5.parse(this.blocks);
+      const verified = blockHash(blocks, root);
 
       if (root === '' || verified === '') {
-        this.verifyError = this.verifyErrors.GENERAL
-        return
+        this.verifyError = this.verifyErrors.GENERAL;
+        this.loading = false;
+        return;
       }
 
       if (this.connected && this.useMetamask) {
-        console.log(this.anchorData)
+        console.log(this.anchorData);
 
         this.web3.readTxData(this.anchorData).then((txData) => {
           if (txData !== null) {
-            this.verified = Buffer.from(txData[2], 'base64').toString('hex') === verified
+            this.verified = Buffer.from(txData[2], 'base64').toString('hex') === verified;
           } else {
-            this.verifyError = this.verifyErrors.NETWORK
-            this.verified = false
+            this.verifyError = this.verifyErrors.NETWORK;
+            this.verified = false;
           }
         }).catch((error) => {
           console.log(error)
-          this.verifyError = this.verifyErrors.GENERAL
-          this.verified = false
+          this.verifyError = this.verifyErrors.GENERAL;
+          this.verified = false;
         })
       } else {
-        this.verified = verified === this.anchorData
+        this.verified = verified === this.anchorData;
       }
+
+      this.loading = false;
     }
   }
 })
@@ -247,75 +281,9 @@ export default Vue.extend({
 <style lang="scss" scoped>
   @import "../assets/sass/abstracts/variables";
 
-  .metamask-switch {
-    color: #aaaaaa;
-  }
-
-  .verify-error {
-    max-width: 400px;
-    color: $errorColor;
-  }
-
-  .first-row {
-    margin-bottom: 46px;
-
-    .data-input-box {
-      height: 105px;
-    }
-
-    @media (max-width: 992px) {
-      margin-bottom: 17px;
-    }
-
-    @media (max-width: 768px) {
-      margin-bottom: 0px;
-
-      .data-input-box {
-        margin-bottom: 30px;
-      }
-    }
-  }
-
-  .second-row {
-    margin-bottom: 76px;
-
-    .data-input-box {
-      height: 250px;
-    }
-
-    @media (max-width: 768px) {
-      margin-bottom: 46px;
-
-      .data-input-box {
-        margin-bottom: 30px;
-      }
-    }
-  }
-
   .validation-error {
-    color: #525f7f;
-    font-size: 14px;
-  }
-
-  .verified-status {
-    margin-bottom: 10px;
-    color: $successColor;
-    font-size: 23px;
-    font-weight: 600;
-
-    img {
-      margin-right: 11px;
-      padding-bottom: 2px;
-    }
-  }
-
-  .verify-clear {
-    cursor: pointer;
-    color: #aaaaaa;
-    margin-bottom: 25px;
-
-    &:hover {
-      opacity: 0.7;
-    }
+    color: $warning;
+    font-size: 0.875rem;
+    margin-bottom: 0;
   }
 </style>

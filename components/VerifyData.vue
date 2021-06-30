@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Tag input -->
-    <b-row class="mb-2">
+    <b-row class="mb-075">
       <b-col cols="12" lg="5" md="6">
         <custom-textarea
           id="tag"
@@ -165,7 +165,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import JSON5 from 'json5';
-import { v4 as uuidv4 } from 'uuid';
 import { sha256 } from '../lib';
 
 import CustomTextarea from '~/components/CustomTextarea.vue';

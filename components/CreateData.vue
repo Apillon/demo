@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Tag input -->
-    <b-row class="mb-2">
+    <b-row class="mb-075">
       <b-col cols="12" lg="5" md="6">
         <custom-textarea
           id="tag"
