@@ -17,7 +17,7 @@
           {{ validationErrors.hash }}
         </p>
       </div>
-      <b-form-checkbox
+      <!-- <b-form-checkbox
         v-if="connected"
         v-model="useMetamask"
         class="metamask-switch mb-1 d-block d-sm-none"
@@ -25,14 +25,14 @@
         @change="useMetamask = !useMetamask; anchorData = '';"
       >
         Use Metamask
-      </b-form-checkbox>
+      </b-form-checkbox> -->
       <div class="col-12 col-md-6 data-input-box pl-0 pl-md-2 pl-lg-4" @click="$refs['data-hash-anchor'].focus()">
         <div class="data-input-inner-box">
           <p
             class="data-input-label"
             v-text="useMetamask ? 'Enter transaction ID' : 'Enter anchor data'"
           />
-          <b-form-checkbox
+          <!-- <b-form-checkbox
             v-if="connected"
             v-model="useMetamask"
             class="data-input-switch d-none d-sm-block"
@@ -40,7 +40,7 @@
             @change="useMetamask = !useMetamask; anchorData = '';"
           >
             Use MetaMask
-          </b-form-checkbox>
+          </b-form-checkbox> -->
           <textarea
             ref="data-hash-anchor"
             v-model="anchorData"
@@ -63,7 +63,7 @@
             ref="data-blocks-input"
             v-model="blocks"
             class="data-input-textarea"
-            @input="validationErrors.blocks = ''"
+            @input="validateData.blocks = ''"
           />
         </div>
         <p v-if="validationErrors.blocks" class="validation-error">
@@ -99,7 +99,7 @@
       <b-button
         v-if="!verified"
         variant="primary"
-        @click="validateData"
+        @click="validate"
       >
         Verify
       </b-button>
@@ -124,9 +124,9 @@ import { Web3Helper } from '../lib/web3'
 
 export default Vue.extend({
   props: {
-    hashedData: {
-      type: String,
-      default: ''
+    validateData: {
+      type: Object,
+      default: {}
     }
   },
   data () {
@@ -163,6 +163,10 @@ export default Vue.extend({
   },
   mounted () {
     this.connected = this.web3.connect()
+    this.blocks = JSON.stringify(this.validateData.blocks)
+    this.merkleProof = JSON.stringify(this.validateData.merkleProof)
+    this.anchorData = this.validateData.anchorData
+    this.hash = this.validateData.hash
   },
   methods: {
     clearData () {
@@ -172,7 +176,7 @@ export default Vue.extend({
       this.anchorData = ''
       this.verified = false
     },
-    validateData () {
+    validate () {
       let errors = false
       if (!this.hash) {
         this.validationErrors.hash = 'Please enter data hash.'

@@ -1,13 +1,35 @@
 <template>
-  <div>
-    <div class="row mb-5 pt-5 d-flex">
-      <h1 class="col-12 col-sm-6 title">
-        Demo - verify data
-      </h1>
-      <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
-        <nuxt-link to="/">
-          Integrity
-        </nuxt-link>
+  <div class="container">
+    <div class="main-container">
+      <div class="row mb-5 pt-5 d-flex">
+        <h1 class="col-12 col-sm-6 title">
+          Demo - verify data
+        </h1>
+        <div class="col-12 col-sm-6 instructions-link">
+          <nuxt-link to="/">
+            Integrity
+          </nuxt-link>
+        </div>
+      </div>
+      <div class="step-container">
+        <h3 class="step-title">
+          Enter data
+        </h3>
+        <VerifyData
+          class="step-content"
+          @verified="handleValidateData($event)"
+        />
+      </div>
+      <div id="#second-step" class="step-container">
+        <div v-if="validateData" >
+          <h3 class="step-title">
+            Hash data - manual verify
+          </h3>
+          <ValidateData
+            class="step-content"
+            :validate-data="validateData"
+          />
+        </div>
       </div>
     </div>
     <div class="step-container">
@@ -36,12 +58,12 @@ import Vue from 'vue'
 export default Vue.extend({
   data () {
     return {
-      hashedData: ''
+      validateData: ''
     }
   },
   methods: {
-    handleHashedData (hash: string) {
-      this.hashedData = hash
+    handleValidateData (data: any) {
+      this.validateData = data
       if (process.browser) {
         const VueScrollTo = require('vue-scrollto')
         const element = document.getElementById('#second-step')
