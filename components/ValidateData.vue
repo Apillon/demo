@@ -123,7 +123,7 @@
                 class="text-success h2 mb-1"
               />
               <h4>
-                Integrity guaranteed
+                Integrity confirmed
               </h4>
             </div>
           </div>

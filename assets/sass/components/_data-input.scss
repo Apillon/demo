@@ -41,11 +41,17 @@
   }
 
   &:hover {
+    background-color: $primary-transparent;
+
     .file-dropbox-text {
       span {
         opacity: 0.8;
       }
     }
+  }
+
+  &.not-allowed {
+    background-color: $gray-200 !important;
   }
 }
 

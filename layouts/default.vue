@@ -84,22 +84,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/sass/variables';
   .main-container {
     margin-top: 119px;
   }
 
   .transparent-nav {
-    background: white;
+    background: $white;
     padding-top: 2rem;
     padding-bottom: 2rem;
     transition: background-color 0.15s, padding 0.15s;
   }
 
   .solid-nav {
-    background: white;
+    background: $white;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    box-shadow: 0px 2px 16px rgba(70, 0, 191, 0.08);
+    box-shadow: 0px 2px 16px $primary-transparent;
     transition: background-color 0.15s, padding 0.15s, box-shadow 0.15s;
   }
 </style>

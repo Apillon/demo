@@ -24,6 +24,8 @@
       <b-col lg="4" md="6">
         <div class="font-description">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+          <br>
+          <a href="#" @click="generateTag()">Generate random tag</a>
         </div>
       </b-col>
     </b-row>
@@ -31,6 +33,7 @@
     <!-- Data input -->
     <b-row>
       <b-col cols="12" lg="5" md="6" class="mb-2 mb-md-0">
+        <!-- Raw data -->
         <custom-textarea
           v-if="isRawData"
           id="data-area"
@@ -40,7 +43,12 @@
           :disabled="!!responseData.createdAt"
         />
 
-        <div v-else class="file-dropbox" :class="{'not-allowed': !!responseData.createdAt}">
+        <!-- Document data -->
+        <div
+          v-else
+          class="file-dropbox"
+          :class="{'not-allowed': !!responseData.createdAt}"
+        >
           <input
             type="file"
             :disabled="!!responseData.createdAt"
@@ -173,6 +181,7 @@ export default Vue.extend({
     return {
       data: '',
       document: null as any,
+      isRawData: false,
       hash: '',
       tag: '',
       responseData: {
@@ -184,15 +193,14 @@ export default Vue.extend({
       error: '',
       clipboardText: 'Copy to clipboard',
       loading: false,
-      isRawData: false,
     }
   },
 
   methods: {
     clearData () {
       this.data = '';
-      this.hash = '';
       this.document = null;
+      this.hash = '';
       this.error = '';
       this.tag = '';
       this.responseData = {
@@ -248,8 +256,8 @@ export default Vue.extend({
         if (!this.document || !(this.document instanceof Blob)) {
           return resolve('');
         }
-        const reader = new FileReader();
 
+        const reader = new FileReader();
         reader.onload = () => {
           if (reader.result) {
             const buffer = Buffer.from(reader.result);
