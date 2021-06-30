@@ -281,8 +281,8 @@ export default Vue.extend({
       let text = `Tag: ${this.tag}\n`;
       text = text + `Hash: ${this.hash}\n`;
       text = text + `Date: ${new Date(this.responseData.createdAt).toISOString()}\n`;
-      if (this.fileName) {
-        text = text + `Filename: ${this.fileName}`;
+      if (this.document ) {
+        text = text + `Filename: ${this.document.name }`;
       }
       const filename = `data-${this.tag}.txt`;
       const link = document.createElement("a");
