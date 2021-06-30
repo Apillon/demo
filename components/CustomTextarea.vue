@@ -36,7 +36,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/abstracts/variables';
+@import '../assets/sass/variables';
 @import '../assets/sass/typography';
 
 .custom-textarea {

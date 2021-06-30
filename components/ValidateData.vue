@@ -284,7 +284,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/sass/abstracts/variables";
+  @import "../assets/sass/variables";
 
   .validation-error {
     color: $warning;
