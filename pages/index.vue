@@ -4,7 +4,7 @@
       Demo
     </h1>
 
-    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4">
+    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4">
       <h3 class="mb-4">
         Enter data
       </h3>

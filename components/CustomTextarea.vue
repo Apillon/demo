@@ -46,7 +46,7 @@ export default Vue.extend({
 
   &__top {
     position: absolute;
-    padding: 0.5rem 1.125rem 0;
+    padding: 0.75rem 1.125rem 0;
 
     width: 100%;
     display: flex;
