@@ -11,7 +11,7 @@
           variant="outline-primary"
           to="/verify"
         >
-          Verify
+          Verify data
         </b-button>
       </div>
     </div>

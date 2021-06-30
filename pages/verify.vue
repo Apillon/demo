@@ -2,7 +2,7 @@
   <div>
     <div class="row mb-5 pt-5 d-flex">
       <h1 class="col-12 col-sm-6 mb-0">
-        Demo - verify data
+        Demo
       </h1>
 
       <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
@@ -11,14 +11,14 @@
           variant="outline-primary"
           to="/"
         >
-          Integrity
+          Enter data
         </b-button>
       </div>
     </div>
 
     <div class="bg-white shadow-purple rounded-lg p-4">
       <h3 class="mb-4">
-        Enter data
+        Verify data
       </h3>
 
       <verify-data @verified="handleValidateData($event)" />
@@ -30,7 +30,7 @@
       class="bg-white shadow-purple rounded-lg p-4 mt-5"
     >
       <h3 class="mb-4">
-        Hash data - manual verify
+        Manual verify
       </h3>
 
       <validate-data :validate-data="validateData" />

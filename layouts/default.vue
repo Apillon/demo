@@ -15,7 +15,7 @@
       <Nuxt />
     </div>
 
-    <footer class="pt-5 pb-5">
+    <footer class="pt-5 pb-5 mt-5">
       <div class="text-center">
         <div class="at-verified">
           <img src="/img/verified.svg" alt="Verified by AuthTrail" style="max-width: 127px;">

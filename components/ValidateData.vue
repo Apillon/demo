@@ -10,6 +10,7 @@
             label="Enter hash"
             no-resize
             height="110px"
+            :disabled="!!verified"
             @input="validationErrors.hash = ''"
           />
 
@@ -28,6 +29,7 @@
             :label="useMetamask ? 'Enter transaction ID' : 'Enter anchor data'"
             no-resize
             height="110px"
+            :disabled="!!verified"
             @input="validationErrors.anchorData = ''"
           />
 
@@ -55,6 +57,7 @@
             v-model="blocks"
             label="Enter blocks"
             height="250px"
+            :disabled="!!verified"
             @input="validationErrors.blocks = ''"
           />
 
@@ -72,6 +75,7 @@
             v-model="merkleProof"
             label="Enter merkle proof"
             height="250px"
+            :disabled="!!verified"
             @input="validationErrors.merkleProof = ''"
           />
 
@@ -102,10 +106,11 @@
           <b-button
             v-if="!verified"
             variant="primary"
+            :disabled="loading"
             @click="validate"
           >
-            <b-spinner v-if="loading" />
             Verify
+            <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>
 

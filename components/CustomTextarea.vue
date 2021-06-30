@@ -12,6 +12,7 @@
       :id="id"
       :value="value"
       :no-resize="noResize"
+      :disabled="disabled"
       class="custom-textarea__input"
       :style="{ height }"
       @input="$emit('input', $event)"
@@ -29,6 +30,7 @@ export default Vue.extend({
     height: { type: String, default: '100px' },
     label: { type: String, default: 'Enter data' },
     noResize: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
   }
 });
 </script>

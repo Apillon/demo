@@ -8,6 +8,7 @@
           v-model="tag"
           label="Enter unique data identifier (tag)"
           no-resize
+          :disabled="!!responseData.createdAt"
         />
       </b-col>
     </b-row>
@@ -20,6 +21,7 @@
           v-model="data"
           label="Enter data"
           height="250px"
+          :disabled="!!responseData.createdAt"
         />
       </b-col>
 
@@ -28,10 +30,12 @@
       </b-col>
 
       <b-col cols="12" lg="5" md="5">
-        <div class="file-dropbox">
+        <div class="file-dropbox" :class="{'not-allowed': !!responseData.createdAt}">
           <input
             type="file"
+            :disabled="!!responseData.createdAt"
             class="input-file"
+            :class="{'not-allowed': !!responseData.createdAt}"
             @change="hashDocument"
           >
           <div class="text-center">
@@ -54,10 +58,11 @@
         <div v-if="!responseData.createdAt" class="text-center">
           <b-button
             variant="primary"
+            :disabled="loading"
             @click="hashData"
           >
-            <b-spinner v-if="loading" />
-            <template v-else>Check integrity</template>
+            Check Integrity
+            <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>
 
@@ -106,6 +111,7 @@
                   v-if="responseData.txid"
                   :href="`https://moonbase-blockscout.testnet.moonbeam.network/tx/${responseData.txid}`"
                   target="_blank"
+                  v-b-tooltip.ds500 title="Open transaction"
                 >
                   {{ responseData.txid }}
                 </a>
