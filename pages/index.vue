@@ -18,17 +18,21 @@
 
     <div class="bg-white shadow-purple rounded-lg p-4">
       <h3 class="mb-4">
-        1. Step <span class="font-weight-normal">Enter data</span>
+        Enter data
       </h3>
 
-      <CreateData />
+      <create-data />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+import CreateData from '~/components/CreateData.vue';
 
 export default Vue.extend({
-})
+  components: {
+    CreateData
+  }
+});
 </script>

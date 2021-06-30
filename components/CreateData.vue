@@ -56,14 +56,16 @@
       </b-col>
     </b-row>
 
+    <!-- Main action and response output -->
     <b-row class="mt-5">
       <b-col>
-        <div v-if="!responseData.id" class="text-center">
+        <div v-if="!responseData.createdAt" class="text-center">
           <b-button
             variant="primary"
             @click="hashData"
           >
-            Add integrity
+            <b-spinner v-if="loading" />
+            <template v-else>Add integrity</template>
           </b-button>
         </div>
 
@@ -108,6 +110,7 @@
               </span>
             </p>
 
+            <!-- Created at -->
             <p>
               <span
                 class="label d-inline-block"
@@ -118,6 +121,7 @@
             </p>
           </div>
 
+          <!-- Go next -->
           <div class="text-center">
             <b-button
               variant="outline-primary"
@@ -164,6 +168,7 @@ export default Vue.extend({
       },
       error: '',
       clipboardText: 'Copy to clipboard',
+      loading: false,
     }
   },
 
@@ -186,44 +191,49 @@ export default Vue.extend({
       if (process.browser) {
         this.clipboardText = 'Copied!';
         setTimeout(() => { this.clipboardText = 'Copy to clipboard'; }, 5000);
-        navigator.clipboard.writeText(text)
+        navigator.clipboard.writeText(text);
       }
     },
 
     async hashData () {
+      this.loading = true;
+
       if (!this.hash && this.data) {
-        let digest: Buffer
+        let digest: Buffer;
         try {
-          digest = sha256(JSON5.stringify(JSON5.parse(this.data)))
+          digest = sha256(JSON5.stringify(JSON5.parse(this.data)));
         } catch {
-          digest = sha256(this.data)
+          digest = sha256(this.data);
         }
-        this.hash = digest.toString('hex')
+        this.hash = digest.toString('hex');
       }
+
       if (this.verifyInputs()) {
-        this.error = ''
-        await this.sendToAuthtrail()
+        this.error = '';
+        await this.sendToAuthtrail();
       } else {
         // todo error
-        this.error = 'Incorrect inputs.'
+        this.error = 'Incorrect inputs.';
       }
+
+      this.loading = false;
     },
 
     hashDocument (event: any) {
-      const file = event.target.files && event.target.files[0] ? event.target.files[0] : null
+      const file = event.target.files && event.target.files[0] ? event.target.files[0] : null;
       if (!file) {
         return
       }
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = () => {
         if (reader.result) {
-          const buffer = Buffer.from(reader.result)
-          const digest = sha256(buffer)
-          this.hash = digest.toString('hex')
+          const buffer = Buffer.from(reader.result);
+          const digest = sha256(buffer);
+          this.hash = digest.toString('hex');
         }
       }
-      reader.readAsArrayBuffer(file)
-      this.fileName = file.name
+      reader.readAsArrayBuffer(file);
+      this.fileName = file.name;
     },
 
     async sendToAuthtrail () {
@@ -236,20 +246,20 @@ export default Vue.extend({
           headers: {
             'x-api-key': process.env.API_KEY
           }
-        })
-        this.responseData = res.data
+        });
+        this.responseData = res.data;
       } catch (e) {
         // todo error
-        console.log(e)
+        console.log(e);
       }
     },
 
     verifyInputs () {
-      return this.hash && this.tag
+      return this.hash && this.tag;
     },
 
     generateTag () {
-      this.tag = uuidv4()
+      this.tag = uuidv4();
     }
   }
 })
