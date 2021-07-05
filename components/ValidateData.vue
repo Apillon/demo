@@ -109,7 +109,7 @@
             :disabled="loading"
             @click="validate"
           >
-            Verify
+            Verify data on Moonbeam
             <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>

@@ -8,7 +8,7 @@
       'padding-bottom': py
     }"
   >
-    <div class="mb-5">
+    <div class="mb-5 mt-3 mt-md-0">
       <h1 v-if="title" :class="{'mb-3': !!subtitle}">
         {{ title }}
       </h1>

@@ -2,30 +2,23 @@
   <div>
     <!-- Tag input -->
     <b-row class="mb-075">
-      <b-col cols="12" lg="5" md="6" class="mb-2 mb-md-0">
+      <b-col cols="12" md="6" class="mb-2 mb-md-0">
         <custom-textarea
           id="tag"
           v-model="tag"
-          label="Enter unique data identifier (tag)"
-          placeholder="my-own-unique-tag"
+          label="Enter tag (a unique data identifier)"
+          placeholder="e.g. my-own-unique-tag"
           no-resize
           :disabled="!!responseData.createdAt"
-        >
-          <template #after-label>
-            <b-icon
-              icon="arrow-repeat"
-              class="pointer text-primary"
-              v-b-tooltip.ds500 title="Generate tag"
-              @click="generateTag()"
-            />
-          </template>
-        </custom-textarea>
+        />
       </b-col>
 
-      <b-col lg="4" md="6">
-        <div class="font-description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-          <br>
+      <!-- Description -->
+      <b-col md="6">
+        <div class="font-description px-md-4 mb-2">
+          <p class="mb-0">
+            Data tag is a unique marker that identifies a specific data entry. When checking for authenticity, a tag is used to locate the annexed data and verify its authenticity.
+          </p>
           <a href="#" @click="generateTag()">Generate random tag</a>
         </div>
       </b-col>
@@ -33,7 +26,7 @@
 
     <!-- Data input -->
     <b-row>
-      <b-col cols="12" lg="5" md="6" class="mb-2 mb-md-0">
+      <b-col cols="12" md="6" class="mb-2 mb-md-0">
         <!-- Raw data -->
         <custom-textarea
           v-if="isRawData"
@@ -60,7 +53,7 @@
           <div class="text-center">
             <img src="/img/document-attach.png">
             <p v-if="!document || !document.name" class="file-dropbox-text">
-              <span>Choose documents</span>
+              <span>Add document</span>
               <br> or drop here
             </p>
             <p v-else class="file-dropbox-text">
@@ -70,11 +63,20 @@
         </div>
       </b-col>
 
-      <b-col lg="4" md="6">
-        <div class="font-description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-          <br>
-          <a href="#" @click="isRawData = !isRawData">Toggle RAW data</a>
+      <!-- Description -->
+      <b-col md="6">
+        <div class="font-description px-md-4 mb-2">
+          <p class="mb-0">
+            Choose documents or raw data that need blockchain-backed integrity.  Once integrity is guaranteed, trusted data info can be downloaded or shared.
+          </p>
+
+          <a href="#" @click="isRawData = !isRawData">Add raw data</a>
+
+          <p class="mb-0 mt-4 text-gray">
+            Authtrail allows non-demo users to update and add versions to existing data by connecting entries through advanced data mapping and processing logic.
+          </p>
+
+          <a href="#" class="text-gray font-weight-bold text-underline">Send inquiry for customized Authtrail solution.</a>
         </div>
       </b-col>
     </b-row>
@@ -88,7 +90,7 @@
             :disabled="loading"
             @click="hashData"
           >
-            Add Integrity
+            Add integrity to your data
             <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>

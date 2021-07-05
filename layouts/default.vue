@@ -104,7 +104,11 @@ export default {
 @import '../assets/sass/variables';
 
 .main-container {
-  margin-top: 12rem;
+  margin-top: 8.5rem;
+
+  @media (min-width: 768px) {
+    margin-top: 12rem;
+  }
 }
 
 .transparent-nav {

@@ -64,8 +64,7 @@
 .font-description {
   font-weight: normal;
   font-size: $font-size-base * 0.875;
-  line-height: $font-size-base * 1;
-  color: $gray-500;
+  line-height: $font-size-base * 1.15;
 }
 
 h1 {
@@ -103,7 +102,7 @@ a {
   font-weight: 700;
   color: $primary;
 
-  &:hover {
-    text-decoration: none;
-  }
+  // &:hover {
+  //   text-decoration: none;
+  // }
 }

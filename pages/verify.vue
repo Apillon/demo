@@ -1,38 +1,32 @@
 <template>
   <div>
-    <h1 class="mb-5">
-      Demo
-    </h1>
-
-    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4">
-      <h3 class="mb-4">
-        Verify data
-      </h3>
-
+    <custom-card
+      title="Verify data integrity"
+      subtitle="Check data for authenticity and verify it against blockchain records."
+    >
       <verify-data @verified="handleValidateData($event)" />
-    </div>
+    </custom-card>
 
-    <div
+    <custom-card
       v-if="validateData"
       id="second-step"
-      class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4 mt-5"
+      title="Verify data manually"
+      subtitle="Use details below to manually check data integrity on the Moonbeam blockchain."
     >
-      <h3 class="mb-4">
-        Manual verify
-      </h3>
-
       <validate-data :validate-data="validateData" />
-    </div>
+    </custom-card>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import CustomCard from '~/components/CustomCard.vue';
 import VerifyData from '~/components/VerifyData.vue';
 import ValidateData from '~/components/ValidateData.vue';
 
 export default Vue.extend({
   components: {
+    CustomCard,
     VerifyData,
     ValidateData,
   },
