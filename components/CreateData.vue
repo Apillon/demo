@@ -95,77 +95,6 @@
           </b-button>
         </div>
 
-        <template v-else>
-          <!-- Integrity guaranteed~! -->
-          <div class="overview-card bg-white shadow-purple rounded">
-            <div class="text-center my-3">
-              <b-icon icon="check-circle-fill" class="text-success h2 mb-1" />
-              <h4>Integrity guaranteed</h4>
-            </div>
-
-            <!-- ID -->
-            <p>
-              <span>
-                <span class="label">ID</span>
-                <span>{{ responseData.id }}</span>
-              </span>
-            </p>
-
-            <!-- Tag -->
-            <p>
-              <span>
-                <span class="label">Tag</span>
-                <span>{{ responseData.tag }}</span>
-              </span>
-
-              <b-button
-                class="btn-clipboard ml-1"
-                variant="outline-primary"
-                v-b-tooltip.ds500 :title="clipboardText"
-                @click="copyToClipboard(responseData.tag)"
-              >
-                <b-icon icon="files" />
-              </b-button>
-            </p>
-
-            <!-- Hash -->
-            <p>
-              <span>
-                <span class="label">Hash</span>
-                <span>{{ responseData.hash }}</span>
-              </span>
-            </p>
-
-            <!-- Created at -->
-            <p>
-              <span
-                class="label d-inline-block"
-                v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
-              >
-                @ {{ responseData.createdAt | formatDate }}
-              </span>
-            </p>
-          </div>
-
-          <!-- Go next -->
-          <div class="text-center">
-             <b-button
-              variant="primary"
-              size="sm"
-              @click="downloadData()"
-            >
-              Download data
-            </b-button>
-            <b-button
-              variant="outline-primary"
-              size="sm"
-              @click="clearData()"
-            >
-              Add integrity to more data
-            </b-button>
-          </div>
-        </template>
-
         <div v-if="error" class="text-center text-warning mt-075">
           {{ error }}
         </div>
@@ -201,34 +130,11 @@ export default Vue.extend({
         hash: ''
       },
       error: '',
-      clipboardText: 'Copy to clipboard',
       loading: false,
     }
   },
 
   methods: {
-    clearData () {
-      this.data = '';
-      this.document = null;
-      this.hash = '';
-      this.error = '';
-      this.tag = '';
-      this.responseData = {
-        id: '',
-        tag: '',
-        createdAt: '',
-        hash: ''
-      };
-    },
-
-    copyToClipboard (text: string) {
-      if (process.browser) {
-        this.clipboardText = 'Copied!';
-        setTimeout(() => { this.clipboardText = 'Copy to clipboard'; }, 5000);
-        navigator.clipboard.writeText(text);
-      }
-    },
-
     async hashData () {
       this.loading = true;
 
@@ -279,28 +185,6 @@ export default Vue.extend({
       });
     },
 
-    downloadData () {
-      let text = `Tag: ${this.tag}\n`;
-      text = text + `Hash: ${this.hash}\n`;
-      text = text + `Date: ${new Date(this.responseData.createdAt).toISOString()}\n`;
-      if (this.document ) {
-        text = text + `Filename: ${this.document.name }`;
-      }
-      const filename = `data-${this.tag}.txt`;
-      const link = document.createElement("a");
-      link.setAttribute("target", "_blank");
-      if(Blob !== undefined) {
-        const blob = new Blob([text], { type: "text/plain" });
-        link.setAttribute("href", URL.createObjectURL(blob));
-      } else {
-        link.setAttribute("href","data:text/plain," + encodeURIComponent(text));
-      }
-      link.setAttribute("download", filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
-
     async sendToAuthtrail () {
       try {
         const res = await this.$axios.$post('/data', {
@@ -312,7 +196,8 @@ export default Vue.extend({
             'x-api-key': process.env.API_KEY
           }
         });
-        this.responseData = res.data;
+        this.responseData = {...res.data, document: this.document, verified: true};
+        this.$emit('updated', this.responseData);
       } catch (e) {
         // todo error
         this.error = 'Tag already exists';

@@ -1,0 +1,24 @@
+<svg width="36" height="33" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <g>
+   <path fill="url(#svg_2)" d="m18,12.35447l-13.50646,-12.18788l-4.49354,4.07815l13.4806,12.18783l-5.06166,4.5675l4.51936,4.0549l23.0617,-20.81023l-4.4935,-4.07815l-13.5065,12.18788z"/>
+
+  </g>
+  <g>
+   <path fill="url(#svg_1)" d="m18,20.53174l13.5065,12.1879l4.4935,-4.0782l-13.4806,-12.1878l5.0617,-4.56753l-4.5194,-4.05485l-23.0617,20.81018l4.49354,4.0782l13.50646,-12.1879z"/>
+   <defs transform="translate(0 0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 -0.11976) translate(0 5.26946) translate(0 5.52749)">
+    <linearGradient gradientTransform="matrix(1,0,0,1,-5.960464477539063e-8,0.16676721721887589)" gradientUnits="userSpaceOnUse" y2="12.4481" x2="-0.01234" y1="12.4481" x1="36" id="svg_2">
+     <stop stop-color="#4600BF"/>
+     <stop stop-color="#FF00D4" offset="1"/>
+    </linearGradient>
+   </defs>
+  </g>
+ </g>
+ <defs>
+  <linearGradient gradientTransform="matrix(1,0,0,1,0,7.802938424050808)" gradientUnits="userSpaceOnUse" y2="12.4684" x2="36.0123" y1="12.4684" x1="0" id="svg_1">
+   <stop stop-color="#4600BF"/>
+   <stop stop-color="#FF00D4" offset="1"/>
+  </linearGradient>
+ </defs>
+</svg>

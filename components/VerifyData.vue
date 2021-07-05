@@ -91,100 +91,6 @@
           </b-button>
         </div>
 
-        <template v-else>
-          <!-- Integrity guaranteed~! -->
-          <div class="overview-card bg-white shadow-purple rounded">
-            <div class="text-center my-3">
-              <b-icon
-                v-if="responseData.verified"
-                icon="check-circle-fill"
-                class="text-success h2 mb-1"
-              />
-              <b-icon
-                v-else
-                icon="x-circle-fill"
-                class="text-warning h2 mb-1"
-              />
-              <h4>
-                {{ responseData.verified ? 'Integrity confirmed' : 'Integrity compromised' }}
-              </h4>
-            </div>
-
-            <!-- Tag -->
-            <p>
-              <span>
-                <span class="label">Tag</span>
-                <span>{{ responseData.tag }}</span>
-              </span>
-
-              <b-button
-                class="btn-clipboard ml-1"
-                variant="outline-primary"
-                v-b-tooltip.ds500 :title="clipboardText"
-                @click="copyToClipboard(responseData.tag)"
-              >
-                <b-icon icon="files" />
-              </b-button>
-            </p>
-
-            <!-- TXID -->
-            <p>
-              <span>
-                <span class="label">Transaction ID</span>
-
-                <a
-                  v-if="responseData.txid"
-                  :href="`https://moonbase-blockscout.testnet.moonbeam.network/tx/${responseData.txid}`"
-                  target="_blank"
-                  v-b-tooltip.ds500 title="Open transaction"
-                >
-                  {{ responseData.txid }}
-                </a>
-
-                <span v-else>
-                  Not yet anchored
-                  <b-spinner variant="dark" small style="margin-bottom: 2px;" />
-                </span>
-              </span>
-            </p>
-
-            <!-- Created at -->
-            <p>
-              <span
-                class="label d-inline-block"
-                v-b-tooltip.bottom.ds500 :title="responseData.createdAt"
-              >
-                @ {{ responseData.createdAt | formatDate }}
-              </span>
-            </p>
-          </div>
-
-          <div class="text-center">
-            <!-- Open manual verify -->
-            <b-button
-              v-if="responseData.txid && !isDetailsOpen"
-              variant="primary"
-              size="sm"
-              class="d-block d-md-inline-block mb-2 mb-md-0 mx-auto"
-              @click="
-                $emit('verified', deepResponseData);
-                isDetailsOpen = true;
-              "
-            >
-              View verification details
-            </b-button>
-
-            <!-- Go next -->
-            <b-button
-              variant="outline-primary"
-              size="sm"
-              @click="clearData()"
-            >
-              Verify more data
-            </b-button>
-          </div>
-        </template>
-
         <div v-if="error" class="text-center text-warning mt-075">
           {{ error }}
         </div>
@@ -216,42 +122,15 @@ export default Vue.extend({
         txid: '',
         tag: '',
         createdAt: '',
-        verified: false
+        verified: false,
+        deepResponseData: null,
       },
-      deepResponseData: null,
       error: '',
-      clipboardText: 'Copy to clipboard',
       loading: false,
-      isDetailsOpen: false,
     }
   },
 
   methods: {
-    clearData () {
-      this.data = '';
-      this.document = null;
-      this.hash = '';
-      this.error = '';
-      this.tag = '';
-      this.responseData = {
-        txid: '',
-        tag: '',
-        createdAt: '',
-        verified: false
-      };
-      this.deepResponseData = null;
-      this.$emit('verified', null);
-      this.isDetailsOpen = false;
-    },
-
-    copyToClipboard (text: string) {
-      if (process.browser) {
-        this.clipboardText = 'Copied!';
-        setTimeout(() => { this.clipboardText = 'Copy to clipboard'; }, 5000);
-        navigator.clipboard.writeText(text);
-      }
-    },
-
     async hashData () {
       this.loading = true;
 
@@ -271,10 +150,11 @@ export default Vue.extend({
 
       if (this.verifyInputs()) {
         this.error = '';
-        await this.verify();
+        this.responseData = await this.verify();
         if (this.responseData.txid) {
-          await this.verifyDeep();
+          this.responseData.deepResponseData = await this.verifyDeep();
         }
+        this.$emit('updated', this.responseData);
       } else {
         // todo error
         this.error = 'Incorrect input data';
@@ -315,11 +195,19 @@ export default Vue.extend({
             'x-api-key': process.env.API_KEY
           }
         });
-        this.responseData = res.data;
+        return res.data;
       } catch (e) {
         // todo error;
         console.log(e)
       }
+
+      return {
+        txid: '',
+        tag: '',
+        createdAt: '',
+        verified: false,
+        deepResponseData: null
+      };
     },
 
     async verifyDeep () {
@@ -332,12 +220,13 @@ export default Vue.extend({
             'x-api-key': process.env.API_KEY
           }
         });
-        this.deepResponseData = res.data;
-        // this.$emit('verified', this.deepResponseData);
+        return res.data;
       } catch (e) {
         // todo error
         console.log(e);
       }
+
+      return null;
     },
 
     verifyInputs () {
