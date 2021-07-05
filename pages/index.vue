@@ -1,25 +1,22 @@
 <template>
   <div>
-    <h1 class="mb-5">
-      Demo
-    </h1>
-
-    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4">
-      <h3 class="mb-4">
-        Enter data
-      </h3>
-
+    <custom-card
+      title="Add integrity"
+      subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
+    >
       <create-data />
-    </div>
+    </custom-card>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import CustomCard from '~/components/CustomCard.vue';
 import CreateData from '~/components/CreateData.vue';
 
 export default Vue.extend({
   components: {
+    CustomCard,
     CreateData
   }
 });

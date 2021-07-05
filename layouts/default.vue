@@ -23,16 +23,17 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <!-- Links -->
-        <b-collapse id="nav-collapse" is-nav class="justify-content-end">
-          <!-- Logo - positioning on desktop -->
+        <b-collapse
+          id="nav-collapse"
+          is-nav
+          class="justify-content-end text-center text-md-left"
+        >
+          <a href="#" class="mx-md-4 d-block px-md-3 py-2">Authtrail Whitepaper</a>
 
-          <a href="#" class="mx-md-4 nav-link">Authtrail Whitepaper</a>
-
-          <!-- Right aligned nav items -->
           <b-button 
             variant="primary" 
             href="https://authtrail.com/"
-            class="mt-2 mt-md-0"
+            class="my-2 my-md-0"
           >
             Homepage
           </b-button>
@@ -103,14 +104,18 @@ export default {
 @import '../assets/sass/variables';
 
 .main-container {
-  margin-top: 119px;
+  margin-top: 12rem;
 }
 
 .transparent-nav {
-  background: $white;
+  background: transparent;
   padding-top: 2rem;
   padding-bottom: 2rem;
   transition: background-color 0.15s, padding 0.15s;
+
+  @media (min-width: 576px) {
+    padding-top: 4rem;
+  }
 }
 
 .solid-nav {
