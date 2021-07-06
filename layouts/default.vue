@@ -104,6 +104,7 @@ export default {
 @import '~assets/sass/variables';
 
 .main-container {
+  position: relative;
   margin-top: 8rem;
 
   @media (min-width: 576px) {

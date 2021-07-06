@@ -1,38 +1,46 @@
 <template>
   <div>
-    <custom-card
-      v-if="!responseData.createdAt"
-      title="Verify data integrity"
-      subtitle="Check data for authenticity and verify it against blockchain records."
-    >
-      <verify-data @updated="responseData = $event" />
-    </custom-card>
+    <transition-group name="fade">
+      <custom-card
+        v-if="!responseData.createdAt"
+        key="form"
+        title="Verify data integrity"
+        subtitle="Check data for authenticity and verify it against blockchain records."
+        class="transition-absolute"
+      >
+        <verify-data @updated="responseData = $event" />
+      </custom-card>
 
-    <template v-else>
-      <integrity-overview :data="responseData" verify />
+      <template v-else>
+        <integrity-overview 
+          key="overview"
+          :data="responseData"
+          verify
+        />
 
-      <div class="text-center">
-        <!-- Open manual verify -->
-        <b-button
-          v-if="responseData.txid && !isDetailsOpen"
-          variant="primary"
-          size="sm"
-          class="d-block d-md-inline-block mb-2 mb-md-0 mx-auto"
-          @click="handleValidateData()"
-        >
-          View details for manual check
-        </b-button>
+        <div key="actions" class="text-center">
+          <!-- Open manual verify -->
+          <b-button
+            v-if="responseData.txid && !isDetailsOpen"
+            variant="primary"
+            size="sm"
+            class="d-block d-md-inline-block mb-2 mb-md-0 mx-auto"
+            @click="handleValidateData()"
+          >
+            View details for manual check
+          </b-button>
 
-        <!-- Go next -->
-        <b-button
-          variant="outline-primary"
-          size="sm"
-          @click="clearData()"
-        >
-          Verify more data
-        </b-button>
-      </div>
-    </template>
+          <!-- Go next -->
+          <b-button
+            variant="outline-primary"
+            size="sm"
+            @click="clearData()"
+          >
+            Verify more data
+          </b-button>
+        </div>
+      </template>
+    </transition-group>
 
     <link-card
       to="/"

@@ -1,40 +1,45 @@
 <template>
   <div>
-    <custom-card
-      v-if="!responseData.createdAt"
-      title="Add integrity"
-      subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
-    >
-      <create-data @updated="responseData = $event" />
-    </custom-card>
+    <transition-group name="fade">
+      <custom-card
+        v-if="!responseData.createdAt"
+        key="form"
+        title="Add integrity"
+        subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
+        class="transition-absolute"
+      >
+        <create-data @updated="responseData = $event" />
+      </custom-card>
 
-    <template v-else>
-      <integrity-overview
-        :data="responseData"
-        title="Integrity guaranteed"
-      />
-      
-      <!-- Go next -->
-      <div class="text-center">
-        <b-button
-          variant="primary"
-          size="sm"
-          class="m-2"
-          @click="downloadData()"
-        >
-          Download trusted data
-        </b-button>
+      <template v-else>
+        <integrity-overview
+          key="overview"
+          :data="responseData"
+          title="Integrity guaranteed"
+        />
+        
+        <!-- Go next -->
+        <div key="actions" class="text-center">
+          <b-button
+            variant="primary"
+            size="sm"
+            class="m-2"
+            @click="downloadData()"
+          >
+            Download trusted data
+          </b-button>
 
-        <b-button
-          variant="outline-primary"
-          size="sm"
-          class="m-2"
-          @click="clearData()"
-        >
-          Add integrity to more data
-        </b-button>
-      </div>
-    </template>
+          <b-button
+            variant="outline-primary"
+            size="sm"
+            class="m-2"
+            @click="clearData()"
+          >
+            Add integrity to more data
+          </b-button>
+        </div>
+      </template>
+    </transition-group>
 
     <link-card
       to="/verify"
