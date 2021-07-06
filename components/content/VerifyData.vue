@@ -66,7 +66,7 @@
             Choose documents or raw data that you want to verify for blockchain-backed integrity.
           </p>
 
-          <a href="#" @click="isRawData = !isRawData">Enter raw data</a>
+          <a href="#" @click.prevent="isRawData = !isRawData">Enter raw data</a>
 
           <p class="mb-0 mt-4 text-gray">
             Authtrail allows non-demo users to update and add versions to existing data by connecting entries through advanced data mapping and processing logic.

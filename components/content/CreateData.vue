@@ -19,7 +19,7 @@
           <p class="mb-0">
             Data tag is a unique marker that identifies a specific data entry. When checking for authenticity, a tag is used to locate the annexed data and verify its authenticity.
           </p>
-          <a href="#" @click="generateTag()">Generate random tag</a>
+          <a href="#" @click.prevent="generateTag()">Generate random tag</a>
         </div>
       </b-col>
     </b-row>
@@ -70,7 +70,7 @@
             Choose documents or raw data that need blockchain-backed integrity.  Once integrity is guaranteed, trusted data info can be downloaded or shared.
           </p>
 
-          <a href="#" @click="isRawData = !isRawData">Add raw data</a>
+          <a href="#" @click.prevent="isRawData = !isRawData">Add raw data</a>
 
           <p class="mb-0 mt-4 text-gray">
             Authtrail allows non-demo users to update and add versions to existing data by connecting entries through advanced data mapping and processing logic.
