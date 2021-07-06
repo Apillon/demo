@@ -10,6 +10,8 @@
   height: 250px;
   padding: 40px;
 
+  transition: background-color 0.15s ease-in-out;
+
   .file-dropbox-text {
     margin-top: 21px;
     color: $primary;
@@ -42,26 +44,5 @@
 
   &.not-allowed {
     background-color: $gray-200 !important;
-  }
-}
-
-.overview-card {
-  padding: 1rem;
-  margin: 0 auto 3rem;
-  max-width: 530px;
-
-  .label {
-    color: $gray-500;
-    display: block;
-    font-size: 0.875rem;
-    line-height: 1;
-  }
-
-  p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    word-break: break-word;
-    word-wrap: break-word;
   }
 }

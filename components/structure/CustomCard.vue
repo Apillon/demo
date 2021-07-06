@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="demo-card bg-white shadow-purple rounded-lg"
+    class="demo-card shadow-purple rounded-lg"
     :style="{
       'padding-left': px,
       'padding-right': px,
@@ -38,9 +38,16 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import '~assets/sass/variables';
+
+.demo-card {
+  background-color: $white;
+}
+
 @media (max-width: 575px) {
   .demo-card {
     padding: 0.75rem !important;
+    padding-bottom: 1.5rem !important;
   }
 }
 </style>

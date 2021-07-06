@@ -1,12 +1,19 @@
 <template>
   <div>
-    <custom-card
-      v-if="!responseData.createdAt"
-      title="Add integrity"
-      subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
-    >
-      <create-data @updated="responseData = $event" />
-    </custom-card>
+    <template v-if="!responseData.createdAt">
+      <custom-card
+        title="Add integrity"
+        subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
+      >
+        <create-data @updated="responseData = $event" />
+      </custom-card>
+
+      <link-card
+        to="/verify"
+        title="Want to verify data integrity instead?"
+        subtitle="Check data for authenticity and verify it against blockchain records."
+      />
+    </template>
 
     <template v-else>
       <integrity-overview
@@ -41,12 +48,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import CustomCard from '~/components/structure/CustomCard.vue';
+import LinkCard from '~/components/structure/LinkCard.vue';
 import CreateData from '~/components/content/CreateData.vue';
 import IntegrityOverview from '~/components/content/IntegrityOverview.vue';
 
 export default Vue.extend({
   components: {
     CustomCard,
+    LinkCard,
     CreateData,
     IntegrityOverview
   },
