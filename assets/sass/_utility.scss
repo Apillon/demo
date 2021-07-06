@@ -1,5 +1,5 @@
 .shadow-purple {
-  box-shadow: 0px 8px 32px $primary-transparent;
+  box-shadow: 10px 10px 40px $primary-transparent;
 }
 
 .pointer {
@@ -34,4 +34,8 @@
 
 .p-075 {
   padding: 0.75rem;
+}
+
+.text-underline {
+  text-decoration: underline;
 }

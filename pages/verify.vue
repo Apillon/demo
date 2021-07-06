@@ -1,56 +1,106 @@
 <template>
   <div>
-    <h1 class="mb-5">
-      Demo
-    </h1>
+    <transition-group name="fade">
+      <custom-card
+        v-if="!responseData.createdAt"
+        key="form"
+        title="Verify data integrity"
+        subtitle="Check data for authenticity and verify it against blockchain records."
+        class="transition-absolute"
+      >
+        <verify-data @updated="responseData = $event" />
+      </custom-card>
 
-    <div class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4">
-      <h3 class="mb-4">
-        Verify data
-      </h3>
+      <template v-else>
+        <integrity-overview 
+          key="overview"
+          :data="responseData"
+          verify
+        />
 
-      <verify-data @verified="handleValidateData($event)" />
-    </div>
+        <div key="actions" class="text-center">
+          <!-- Open manual verify -->
+          <b-button
+            v-if="responseData.txid && !isDetailsOpen"
+            variant="primary"
+            size="sm"
+            class="d-block d-md-inline-block mb-2 mb-md-0 mx-auto"
+            @click="handleValidateData()"
+          >
+            View details for manual check
+          </b-button>
 
-    <div
-      v-if="validateData"
-      id="second-step"
-      class="bg-white shadow-purple rounded-lg p-075 p-sm-4 pb-4 mt-5"
-    >
-      <h3 class="mb-4">
-        Manual verify
-      </h3>
+          <!-- Go next -->
+          <b-button
+            variant="outline-primary"
+            size="sm"
+            @click="clearData()"
+          >
+            Verify more data
+          </b-button>
+        </div>
+      </template>
+    </transition-group>
 
-      <validate-data :validate-data="validateData" />
+    <link-card
+      to="/add"
+      :title="!responseData.createdAt ? 'Want to add integrity to your data, instead?' : 'Or, add integrity to your data'"
+      subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
+      :tight="!!responseData.createdAt"
+    />
+
+    <div v-if="isDetailsOpen" class="mt-5 pt-5">
+      <custom-card
+        id="second-step"
+        title="Verify data manually"
+        subtitle="Use details below to manually check data integrity on the Moonbeam blockchain."
+      >
+        <validate-data :validate-data="responseData.deepResponseData" />
+      </custom-card>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import VerifyData from '~/components/VerifyData.vue';
-import ValidateData from '~/components/ValidateData.vue';
+import CustomCard from '~/components/structure/CustomCard.vue';
+import LinkCard from '~/components/structure/LinkCard.vue';
+import VerifyData from '~/components/content/VerifyData.vue';
+import ValidateData from '~/components/content/ValidateData.vue';
+import IntegrityOverview from '~/components/content/IntegrityOverview.vue';
 
 export default Vue.extend({
   components: {
+    CustomCard,
+    LinkCard,
     VerifyData,
     ValidateData,
+    IntegrityOverview,
   },
 
   data() {
     return {
-      validateData: '',
+      responseData: {
+        createdAt: '',
+        txid: '',
+      } as any,
+      isDetailsOpen: false,
     };
   },
 
   methods: {
+    clearData() {
+      this.isDetailsOpen = false;
+      this.responseData = { createdAt: '', txid: '' };
+    },
+
     handleValidateData (data: any) {
-      this.validateData = data;
-      if (process.browser && !!this.validateData) {
+      this.isDetailsOpen = true;
+      if (process.browser && !!this.responseData.deepResponseData) {
         this.$nextTick(() => {
           const VueScrollTo = require('vue-scrollto');
           const element = document.getElementById('second-step');
-          VueScrollTo.scrollTo(element, 1000);
+          VueScrollTo.scrollTo(element, 1000, { offset: -100 });
         });
       }
     }

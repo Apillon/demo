@@ -8,37 +8,32 @@
       :class="[ scrollPosition >= 40 ? 'solid-nav' : 'transparent-nav']"
     >
       <b-container class="px-0375">
-        <!-- Logo -->
-        <b-navbar-brand to="/" class="d-md-none">
+        <!-- Logo - mobile -->
+        <b-navbar-brand to="/">
           <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
+          <h2
+            class="d-inline-block mb-0 ml-2"
+            style="line-height: 44px;"
+          >
+            Demo
+          </h2>
         </b-navbar-brand>
 
         <!-- Mobile hamburger -->
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <!-- Links -->
-        <b-collapse id="nav-collapse" is-nav class="justify-content-md-between">
-          <!-- Logo - positioning on desktop -->
-          <b-navbar-brand to="/" class="d-none d-md-inline-block">
-            <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
-          </b-navbar-brand>
+        <b-collapse
+          id="nav-collapse"
+          is-nav
+          class="justify-content-end text-center text-md-left"
+        >
+          <a href="#" class="mx-md-4 d-block px-md-3 py-2">Authtrail Whitepaper</a>
 
-          <!-- Centered nav items -->
-          <b-navbar-nav>
-            <b-nav-item to="/" class="mx-md-2">
-              Enter data
-            </b-nav-item>
-
-            <b-nav-item to="/verify" class="mx-md-2">
-              Verify data
-            </b-nav-item>
-          </b-navbar-nav>
-
-          <!-- Right aligned nav items -->
           <b-button 
             variant="primary" 
             href="https://authtrail.com/"
-            class="mt-2 mt-md-0"
+            class="my-2 my-md-0"
           >
             Homepage
           </b-button>
@@ -54,8 +49,24 @@
     <!-- Footer -->
     <footer class="pt-5 pb-5 mt-5">
       <div class="text-center">
-        <div class="at-verified">
-          <img src="/img/verified.svg" alt="Verified by AuthTrail" style="max-width: 127px;">
+        <!-- Footer links -->
+        <div class="pb-1">
+          <p class="mb-075">
+            <a href="#" class="link-plain">
+              Why data integrity matters for your business?
+            </a>
+          </p>
+
+          <p class="mb-3">
+            <a href="#" class="link-plain">
+              How does it work?
+            </a>
+          </p>
+        </div>
+
+        <!-- Verified by -->
+        <div class="my-5">
+          <img src="/img/verified.svg" alt="Verified by AuthTrail" style="max-width: 120px;">
         </div>
       </div>
     </footer>
@@ -90,44 +101,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/variables';
-  .main-container {
-    margin-top: 119px;
+@import '~assets/sass/variables';
+
+.main-container {
+  position: relative;
+  margin-top: 8rem;
+
+  @media (min-width: 576px) {
+    margin-top: 12rem;
   }
 
-  .transparent-nav {
-    background: $white;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    transition: background-color 0.15s, padding 0.15s;
+  @media (min-width: 768px) {
+    margin-top: 14rem;
   }
+}
 
-  .solid-nav {
-    background: $white;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    box-shadow: 0px 2px 16px $primary-transparent;
-    transition: background-color 0.15s, padding 0.15s, box-shadow 0.15s;
+.transparent-nav {
+  background: transparent;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  transition: background-color 0.15s, padding 0.15s;
+
+  @media (min-width: 576px) {
+    padding-top: 4rem;
   }
-</style>
+}
 
-<style lang="scss">
-@import '../assets/sass/variables';
+.solid-nav {
+  background: $white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0px 2px 16px $primary-transparent;
+  transition: background-color 0.15s, padding 0.15s, box-shadow 0.15s;
+}
 
-nav.navbar {
-  .navbar-nav .nav-link {
-    color: $dark;
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.5rem;
+.link-plain {
+  font-weight: 400;
+  color: $black;
+  text-decoration: underline;
 
-    &.nuxt-link-exact-active {
-      color: $primary;
-    }
+  &:hover, &:focus, &:active {
+    color: $primary;
+    text-decoration: none;
   }
+}
 
-  .navbar-toggler {
-    border: none;
-  }
+#nav-collapse.show {
+  background-color: $white;
 }
 </style>

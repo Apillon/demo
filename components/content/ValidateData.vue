@@ -109,7 +109,7 @@
             :disabled="loading"
             @click="validate"
           >
-            Verify
+            Verify data on Moonbeam
             <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>
@@ -146,10 +146,10 @@
 <script lang="ts">
 import Vue from 'vue';
 import JSON5 from 'json5';
-import { blockHash, merkleRoot, validateJSON } from '../lib';
-import { Web3Helper } from '../lib/web3';
+import { blockHash, merkleRoot, validateJSON } from '../../lib';
+import { Web3Helper } from '../../lib/web3';
 
-import CustomTextarea from '~/components/CustomTextarea.vue';
+import CustomTextarea from '~/components/structure/CustomTextarea.vue';
 
 export default Vue.extend({
   components: {
@@ -284,7 +284,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/sass/variables";
+  @import '~assets/sass/variables';
 
   .validation-error {
     color: $warning;
