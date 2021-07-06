@@ -145,4 +145,8 @@ export default {
     text-decoration: none;
   }
 }
+
+#nav-collapse.show {
+  background-color: $white;
+}
 </style>

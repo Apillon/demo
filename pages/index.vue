@@ -1,113 +1,85 @@
 <template>
-  <div>
-    <transition-group name="fade">
-      <custom-card
-        v-if="!responseData.createdAt"
-        key="form"
-        title="Add integrity"
-        subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
-        class="transition-absolute"
-      >
-        <create-data @updated="responseData = $event" />
-      </custom-card>
+  <div class="page-selector">
+    <b-button
+      variant="primary"
+      to="/add"
+      class="btn-selector"
+    >
+      <h5 class="text-white">Add integrity</h5>
+      <p class="text-white">Equip your data with integrity by hashing and anchoring it on blockchain</p>
+    </b-button>
 
-      <template v-else>
-        <integrity-overview
-          key="overview"
-          :data="responseData"
-          title="Integrity guaranteed"
-        />
-        
-        <!-- Go next -->
-        <div key="actions" class="text-center">
-          <b-button
-            variant="primary"
-            size="sm"
-            class="m-2"
-            @click="downloadData()"
-          >
-            Download trusted data
-          </b-button>
-
-          <b-button
-            variant="outline-primary"
-            size="sm"
-            class="m-2"
-            @click="clearData()"
-          >
-            Add integrity to more data
-          </b-button>
-        </div>
-      </template>
-    </transition-group>
-
-    <link-card
+    <b-button
+      variant="outline-primary"
       to="/verify"
-      :title="!responseData.createdAt ? 'Want to verify data integrity instead?' : 'Next, verify your data'"
-      subtitle="Check data for authenticity and verify it against blockchain records."
-      :tight="!!responseData.createdAt"
-    />
+      class="btn-selector"
+    >
+      <h5>Verify integrity</h5>
+      <p>Check data for authenticity and verify it against blockchain records</p>
+    </b-button>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import CustomCard from '~/components/structure/CustomCard.vue';
-import LinkCard from '~/components/structure/LinkCard.vue';
-import CreateData from '~/components/content/CreateData.vue';
-import IntegrityOverview from '~/components/content/IntegrityOverview.vue';
 
 export default Vue.extend({
-  components: {
-    CustomCard,
-    LinkCard,
-    CreateData,
-    IntegrityOverview
-  },
-
-  data() {
-    return {
-      responseData: {
-        createdAt: '',
-      } as any,
-    };
-  },
-
-  methods: {
-    clearData() {
-      this.responseData = { createdAt: '' };
-    },
-
-    /**
-     * Download a txt file with verification info for later reference
-     */
-    downloadData() {
-      let text = `Tag: ${this.responseData.tag}\n`;
-      text = text + `Hash: ${this.responseData.hash}\n`;
-      text = text + `Date: ${new Date(this.responseData.createdAt).toISOString()}\n`;
-
-      if (this.responseData.document) {
-        text = text + `Filename: ${this.responseData.document.name }`;
-      }
-
-      const filename = `data-${this.responseData.tag}.txt`;
-      const link = document.createElement("a");
-
-      link.setAttribute("target", "_blank");
-
-      if(Blob !== undefined) {
-        const blob = new Blob([text], { type: "text/plain" });
-        link.setAttribute("href", URL.createObjectURL(blob));
-      } else {
-        link.setAttribute("href","data:text/plain," + encodeURIComponent(text));
-      }
-
-      link.setAttribute("download", filename);
-  
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
-  }
 });
 </script>
+
+<style lang="scss" scoped>
+@import '~assets/sass/variables';
+
+.page-selector {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+
+  .btn-selector {
+    max-width: 330px;
+    margin: 0.5rem 0;
+    padding: 5.5rem 3rem;
+
+    &.btn-primary {
+      p, h5 {
+        color: $white;
+      }
+    }
+
+    &.btn-outline-primary {
+      p, h5 {
+        color: $primary;
+      }
+
+      &:hover {
+        p, h5 {
+          color: $white;
+        }
+      }
+    }
+
+    h5 {
+      margin-bottom: 0.875rem;
+    }
+
+    p {
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+
+    // btn width + container padding
+    @media (min-width: 342px) {
+      padding: 5.5rem 4rem;
+    }
+
+    @media (min-width: 576px) {
+      margin: 0.5rem;
+    }
+
+    @media (min-width: 992px) {
+      margin: 0 2rem;
+    }
+  }
+}
+</style>

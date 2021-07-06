@@ -43,7 +43,7 @@
     </transition-group>
 
     <link-card
-      to="/"
+      to="/add"
       :title="!responseData.createdAt ? 'Want to add integrity to your data, instead?' : 'Or, add integrity to your data'"
       subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
       :tight="!!responseData.createdAt"

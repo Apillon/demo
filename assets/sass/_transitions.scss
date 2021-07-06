@@ -1,5 +1,5 @@
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 0.25s;
 
   &.transition-absolute {
     position: absolute;
@@ -8,5 +8,14 @@
 }
 
 .fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s;
+}
+.page-enter,
+.page-leave-to {
   opacity: 0;
 }
