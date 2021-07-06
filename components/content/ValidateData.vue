@@ -87,7 +87,7 @@
     </b-row>
 
     <!-- Errors -->
-    <b-row v-if="verifyError" class="mt-5">
+    <b-row v-if="verifyError" class="mt-5 text-warning">
       <b-col md="6" class="mx-auto" style="max-width: 530px;">
         <div v-if="verifyError === verifyErrors.GENERAL" class="text-center">
           There was a problem while verifying data. Please make sure that you entered correct values in their corresponding fields and try again.
@@ -113,31 +113,6 @@
             <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>
-
-        <template v-else>
-          <!-- Integrity guaranteed~! -->
-          <div class="overview-card bg-white shadow-purple rounded">
-            <div class="text-center my-3">
-              <b-icon
-                icon="check-circle-fill"
-                class="text-success h2 mb-1"
-              />
-              <h4>
-                Integrity confirmed
-              </h4>
-            </div>
-          </div>
-
-          <div class="text-center">
-            <b-button
-              variant="outline-primary"
-              size="sm"
-              @click="clearData()"
-            >
-              Clear data
-            </b-button>
-          </div>
-        </template>
       </b-col>
     </b-row>
   </div>
@@ -187,6 +162,7 @@ export default Vue.extend({
       }
     }
   },
+
   watch: {
     hashedData (value) {
       this.hash = value
@@ -196,6 +172,7 @@ export default Vue.extend({
       this.verified = false
     }
   },
+
   mounted () {
     this.connected = this.web3.connect()
     this.blocks = JSON.stringify(this.validateData.blocks)
@@ -203,6 +180,7 @@ export default Vue.extend({
     this.anchorData = this.validateData.anchorData
     this.hash = this.validateData.hash
   },
+
   methods: {
     clearData () {
       this.hash = ''
@@ -211,6 +189,7 @@ export default Vue.extend({
       this.anchorData = ''
       this.verified = false
     },
+
     validate () {
       let errors = false
       if (!this.hash) {
@@ -243,6 +222,7 @@ export default Vue.extend({
         this.verify()
       }
     },
+
     verify () {
       this.loading = true;
       this.verifyError = 0;
@@ -259,8 +239,6 @@ export default Vue.extend({
       }
 
       if (this.connected && this.useMetamask) {
-        console.log(this.anchorData);
-
         this.web3.readTxData(this.anchorData).then((txData) => {
           if (txData !== null) {
             this.verified = Buffer.from(txData[2], 'base64').toString('hex') === verified;
@@ -276,6 +254,8 @@ export default Vue.extend({
       } else {
         this.verified = verified === this.anchorData;
       }
+
+      this.$emit('updated', this.verified);
 
       this.loading = false;
     }

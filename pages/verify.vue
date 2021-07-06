@@ -50,13 +50,39 @@
     />
 
     <div v-if="isDetailsOpen" class="mt-5 pt-5">
-      <custom-card
-        id="second-step"
-        title="Verify data manually"
-        subtitle="Use details below to manually check data integrity on the Moonbeam blockchain."
-      >
-        <validate-data :validate-data="responseData.deepResponseData" />
-      </custom-card>
+      <transition-group name="fade">
+        <custom-card
+          v-if="!isManualVerified"
+          key="input2"
+          id="second-step"
+          title="Verify data manually"
+          subtitle="Use details below to manually check data integrity on the Moonbeam blockchain."
+          class="transition-absolute"
+        >
+          <validate-data
+            :validate-data="responseData.deepResponseData"
+            @updated="isManualVerified = !!$event"
+          />
+        </custom-card>
+
+        <template v-else>
+          <!-- Integrity guaranteed~! -->
+          <integrity-overview 
+            key="overview"
+            :data="{ verified: true }"
+          />
+
+          <div key="actions" class="text-center">
+            <b-button
+              variant="outline-primary"
+              size="sm"
+              @click="clearManualData()"
+            >
+              Edit manual check
+            </b-button>
+          </div>
+        </template>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -84,6 +110,7 @@ export default Vue.extend({
         createdAt: '',
         txid: '',
       } as any,
+      isManualVerified: false,
       isDetailsOpen: false,
     };
   },
@@ -94,14 +121,22 @@ export default Vue.extend({
       this.responseData = { createdAt: '', txid: '' };
     },
 
-    handleValidateData (data: any) {
+    clearManualData() {
+      this.isManualVerified = false;
+      this.handleValidateData(500);
+    },
+
+    handleValidateData(timeout = 0) {
       this.isDetailsOpen = true;
       if (process.browser && !!this.responseData.deepResponseData) {
-        this.$nextTick(() => {
-          const VueScrollTo = require('vue-scrollto');
-          const element = document.getElementById('second-step');
-          VueScrollTo.scrollTo(element, 1000, { offset: -100 });
-        });
+        // Timeout because of transition ...
+        setTimeout(() => {
+          this.$nextTick(() => {
+            const VueScrollTo = require('vue-scrollto');
+            const element = document.getElementById('second-step');
+            VueScrollTo.scrollTo(element, 1000, { offset: -100 });
+          });
+        }, timeout);
       }
     }
   }
