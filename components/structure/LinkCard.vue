@@ -3,8 +3,9 @@
     v-if="to"
     :to="to"
     class="link-card"
+    :class="{ tight }"
   >
-    <custom-card>
+    <custom-card px="2rem">
       <h4 class="">{{ title }}</h4>
       <p>{{ subtitle }}</p>
     </custom-card>
@@ -24,6 +25,7 @@ export default Vue.extend({
     title: { type: String, default: '' },
     subtitle: { type: String, default: '' },
     to: { type: String, default: '', required: true },
+    tight: { type: Boolean, default: false },
   },
 });
 </script>
@@ -51,6 +53,12 @@ export default Vue.extend({
   .demo-card {
     border: solid 2px transparent;
     transition: border-color 0.15s ease-in-out;
+  }
+
+  &.tight {
+    max-width: $tight-width;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   &:hover, &:focus, &:active {

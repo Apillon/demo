@@ -14,7 +14,7 @@
       </div>
 
       <!-- ID -->
-      <p v-if="data.id">
+      <p v-if="!verify && data.id">
         <span>
           <span class="label">ID</span>
           <span>{{ data.id }}</span>
@@ -32,14 +32,14 @@
           class="btn-clipboard ml-1"
           variant="outline-primary"
           v-b-tooltip.ds500 :title="clipboardText"
-          @click="copyToClipboard(responseData.tag)"
+          @click="copyToClipboard(data.tag)"
         >
           <b-icon icon="files" />
         </b-button>
       </p>
 
       <!-- Hash -->
-      <p v-if="data.hash">
+      <p v-if="!verify && data.hash">
         <span>
           <span class="label">Hash</span>
           <span>{{ data.hash }}</span>
@@ -47,7 +47,7 @@
       </p>
 
       <!-- TXID -->
-      <p v-if="data.txid">
+      <p v-if="verify">
         <span>
           <span class="label">Transaction ID</span>
 
@@ -62,7 +62,7 @@
 
           <span v-else>
             Not yet anchored
-            <b-spinner variant="dark" small style="margin-bottom: 2px;" />
+            <b-spinner variant="primary" small class="ml-1" style="margin-bottom: 2px;" />
           </span>
         </span>
       </p>
@@ -102,6 +102,7 @@ export default Vue.extend({
       ),
       required: true,
     },
+    verify: { type: Boolean, default: false }, // show fields for verify ;else show fields for create
     title: { type: String, default: '' }, // overwrite default title (integrity confirmed/compromised)
   },
 
@@ -128,8 +129,8 @@ export default Vue.extend({
 
 .integrity-overview {
   .integrity-overview-card {
-    max-width: 530px;
-    margin: 0 auto 3rem;
+    max-width: $tight-width;
+    margin: 0 auto 2rem;
   }
 
   .label {

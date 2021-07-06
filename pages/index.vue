@@ -1,19 +1,12 @@
 <template>
   <div>
-    <template v-if="!responseData.createdAt">
-      <custom-card
-        title="Add integrity"
-        subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
-      >
-        <create-data @updated="responseData = $event" />
-      </custom-card>
-
-      <link-card
-        to="/verify"
-        title="Want to verify data integrity instead?"
-        subtitle="Check data for authenticity and verify it against blockchain records."
-      />
-    </template>
+    <custom-card
+      v-if="!responseData.createdAt"
+      title="Add integrity"
+      subtitle="Equip your data with integrity by hashing and anchoring it on blockchain."
+    >
+      <create-data @updated="responseData = $event" />
+    </custom-card>
 
     <template v-else>
       <integrity-overview
@@ -42,6 +35,13 @@
         </b-button>
       </div>
     </template>
+
+    <link-card
+      to="/verify"
+      :title="!responseData.createdAt ? 'Want to verify data integrity instead?' : 'Next, verify your data'"
+      subtitle="Check data for authenticity and verify it against blockchain records."
+      :tight="!!responseData.createdAt"
+    />
   </div>
 </template>
 
