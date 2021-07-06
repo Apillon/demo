@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/variables';
+@import '~assets/sass/variables';
 
 .main-container {
   margin-top: 8.5rem;

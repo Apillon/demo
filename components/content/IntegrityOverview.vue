@@ -81,7 +81,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CustomCard from '~/components/CustomCard.vue';
+import CustomCard from '~/components/structure/CustomCard.vue';
 
 export default Vue.extend({
   components: {
@@ -124,7 +124,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/variables';
+@import '~assets/sass/variables';
 
 .integrity-overview {
   .integrity-overview-card {

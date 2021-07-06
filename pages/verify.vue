@@ -48,10 +48,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CustomCard from '~/components/CustomCard.vue';
-import VerifyData from '~/components/VerifyData.vue';
-import ValidateData from '~/components/ValidateData.vue';
-import IntegrityOverview from '~/components/IntegrityOverview.vue';
+import CustomCard from '~/components/structure/CustomCard.vue';
+import VerifyData from '~/components/content/VerifyData.vue';
+import ValidateData from '~/components/content/ValidateData.vue';
+import IntegrityOverview from '~/components/content/IntegrityOverview.vue';
 
 export default Vue.extend({
   components: {

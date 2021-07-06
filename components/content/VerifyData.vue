@@ -7,19 +7,16 @@
           id="tag"
           v-model="tag"
           label="Enter tag (a unique data identifier)"
-          placeholder="e.g. my-own-unique-tag"
           no-resize
           :disabled="!!responseData.createdAt"
         />
       </b-col>
 
-      <!-- Description -->
       <b-col md="6">
         <div class="font-description px-md-4 mb-2">
           <p class="mb-0">
-            Data tag is a unique marker that identifies a specific data entry. When checking for authenticity, a tag is used to locate the annexed data and verify its authenticity.
+            Data tag is a unique marker that identifies a specific data entry. Enter the tag that marks the data entry you want to verify.
           </p>
-          <a href="#" @click="generateTag()">Generate random tag</a>
         </div>
       </b-col>
     </b-row>
@@ -63,14 +60,13 @@
         </div>
       </b-col>
 
-      <!-- Description -->
       <b-col md="6">
         <div class="font-description px-md-4 mb-2">
           <p class="mb-0">
-            Choose documents or raw data that need blockchain-backed integrity.  Once integrity is guaranteed, trusted data info can be downloaded or shared.
+            Choose documents or raw data that you want to verify for blockchain-backed integrity.
           </p>
 
-          <a href="#" @click="isRawData = !isRawData">Add raw data</a>
+          <a href="#" @click="isRawData = !isRawData">Enter raw data</a>
 
           <p class="mb-0 mt-4 text-gray">
             Authtrail allows non-demo users to update and add versions to existing data by connecting entries through advanced data mapping and processing logic.
@@ -90,7 +86,7 @@
             :disabled="loading"
             @click="hashData"
           >
-            Add integrity to your data
+            Check data integrity
             <b-spinner v-if="loading" small class="btn-spinner" />
           </b-button>
         </div>
@@ -104,19 +100,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import JSON5 from 'json5'
-import { v4 as uuidv4 } from 'uuid'
-import { sha256 } from '../lib'
+import Vue from 'vue';
+import JSON5 from 'json5';
+import { sha256 } from '../../lib';
 
-import CustomTextarea from '~/components/CustomTextarea.vue';
+import CustomTextarea from '~/components/structure/CustomTextarea.vue';
 
 export default Vue.extend({
   components: {
-    CustomTextarea
+    CustomTextarea,
   },
 
-  data () {
+  data() {
     return {
       data: '',
       document: null as any,
@@ -124,10 +119,11 @@ export default Vue.extend({
       hash: '',
       tag: '',
       responseData: {
-        id: '',
+        txid: '',
         tag: '',
         createdAt: '',
-        hash: ''
+        verified: false,
+        deepResponseData: null,
       },
       error: '',
       loading: false,
@@ -147,14 +143,18 @@ export default Vue.extend({
         } catch {
           digest = sha256(this.data);
         }
-        this.hash = digest.toString('hex');
+        this.hash = sha256(digest.toString('hex')).toString('hex');
       } else if (!this.isRawData && this.document) {
         this.hash = await this.hashDocument();
       }
 
       if (this.verifyInputs()) {
         this.error = '';
-        await this.sendToAuthtrail();
+        this.responseData = await this.verify();
+        if (this.responseData.txid) {
+          this.responseData.deepResponseData = await this.verifyDeep();
+        }
+        this.$emit('updated', this.responseData);
       } else {
         // todo error
         this.error = 'Incorrect input data';
@@ -178,40 +178,60 @@ export default Vue.extend({
           if (reader.result) {
             const buffer = Buffer.from(reader.result);
             const digest = sha256(buffer);
-            return resolve(digest.toString('hex'));
+            return resolve(sha256(digest.toString('hex')).toString('hex'));
           }
-        }
+        };
         reader.readAsArrayBuffer(this.document);
       });
     },
 
-    async sendToAuthtrail () {
+    async verify () {
       try {
-        const res = await this.$axios.$post('/data', {
-          data: this.hash,
-          changeType: 0,
+        const res = await this.$axios.$post('/verify', {
+          hash: this.hash,
           tag: this.tag // unique user generated id
         }, {
           headers: {
             'x-api-key': process.env.API_KEY
           }
         });
-        this.responseData = {...res.data, document: this.document, verified: true};
-        this.$emit('updated', this.responseData);
+        return res.data;
+      } catch (e) {
+        // todo error;
+        console.log(e)
+      }
+
+      return {
+        txid: '',
+        tag: '',
+        createdAt: '',
+        verified: false,
+        deepResponseData: null
+      };
+    },
+
+    async verifyDeep () {
+      try {
+        const res = await this.$axios.$post('/verify/deep', {
+          hash: this.hash,
+          tag: this.tag // unique user generated id
+        }, {
+          headers: {
+            'x-api-key': process.env.API_KEY
+          }
+        });
+        return res.data;
       } catch (e) {
         // todo error
-        this.error = 'Tag already exists';
-        // console.log(e);
+        console.log(e);
       }
+
+      return null;
     },
 
     verifyInputs () {
       return this.hash && this.tag;
     },
-
-    generateTag () {
-      this.tag = uuidv4();
-    }
   }
 })
 </script>

@@ -38,8 +38,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/variables';
-@import '../assets/sass/typography';
+@import '~assets/sass/variables';
+@import '~assets/sass/typography';
 
 .custom-textarea {
   height: 100%;

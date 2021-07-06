@@ -40,9 +40,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CustomCard from '~/components/CustomCard.vue';
-import CreateData from '~/components/CreateData.vue';
-import IntegrityOverview from '~/components/IntegrityOverview.vue';
+import CustomCard from '~/components/structure/CustomCard.vue';
+import CreateData from '~/components/content/CreateData.vue';
+import IntegrityOverview from '~/components/content/IntegrityOverview.vue';
 
 export default Vue.extend({
   components: {
