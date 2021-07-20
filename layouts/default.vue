@@ -63,11 +63,6 @@
             </a>
           </p>
         </div>
-
-        <!-- Verified by -->
-        <div class="my-5">
-          <img src="/img/verified.svg" alt="Verified by AuthTrail" style="max-width: 120px;">
-        </div>
       </div>
     </footer>
   </div>
