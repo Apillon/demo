@@ -28,7 +28,7 @@
           is-nav
           class="justify-content-end text-center text-md-left"
         >
-          <a href="#" class="mx-md-4 d-block px-md-3 py-2">Authtrail Whitepaper</a>
+          <!-- <a href="#" class="mx-md-4 d-block px-md-3 py-2">Authtrail Whitepaper</a> -->
 
           <b-button 
             variant="primary" 
@@ -50,7 +50,7 @@
     <footer class="pt-5 pb-5 mt-5">
       <div class="text-center">
         <!-- Footer links -->
-        <div class="pb-1">
+        <!-- <div class="pb-1">
           <p class="mb-075">
             <a href="#" class="link-plain">
               Why data integrity matters for your business?
@@ -62,7 +62,7 @@
               How does it work?
             </a>
           </p>
-        </div>
+        </div> -->
       </div>
     </footer>
   </div>
