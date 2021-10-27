@@ -53,7 +53,7 @@
 
           <a
             v-if="data.txid"
-            :href="`https://moonbase-blockscout.testnet.moonbeam.network/tx/${data.txid}`"
+            :href="`https://moonbase.moonscan.io/tx/${data.txid}`"
             target="_blank"
             v-b-tooltip.ds500 title="Open transaction"
           >
