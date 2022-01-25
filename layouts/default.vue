@@ -123,7 +123,7 @@ export default {
 }
 
 .solid-nav {
-  background: $white;
+  background: $bgSecondaryColor;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   box-shadow: 0px 2px 16px $primary-transparent;

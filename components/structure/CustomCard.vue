@@ -41,7 +41,7 @@ export default Vue.extend({
 @import '~assets/sass/variables';
 
 .demo-card {
-  background-color: $white;
+  background-color: $bgSecondaryColor;
 }
 
 @media (max-width: 575px) {

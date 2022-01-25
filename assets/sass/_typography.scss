@@ -106,3 +106,14 @@ a {
   //   text-decoration: none;
   // }
 }
+
+.form-control {
+  background-color: $at-inputDarkBlue;
+  border: 1px solid lighten($primary, 5%);
+  color: $gray-500;
+  &:focus {
+      background-color: $at-inputDarkBlueFocus;
+      border: 1px solid $primary;
+      
+  }
+}

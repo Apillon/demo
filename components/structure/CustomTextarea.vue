@@ -1,10 +1,9 @@
 <template>
   <div class="custom-textarea">
+    <label :for="id" :class="!disabled ? 'bg-white' : 'bg-transparent'">
+            {{ label }}
+    </label>
     <div class="custom-textarea__top">
-      <label :for="id" :class="!disabled ? 'bg-white' : 'bg-transparent'">
-        {{ label }}
-      </label>
-
       <slot name="after-label" class="after-label" />
     </div>
 

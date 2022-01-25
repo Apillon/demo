@@ -1,3 +1,7 @@
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+
 // Style variables.
 @import 'variables';
 
@@ -17,5 +21,3 @@
 // Utility classes
 @import 'utility';
 
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/bootstrap-vue/src/index.scss';

@@ -45,7 +45,7 @@ export default Vue.extend({
   }
 
   p {
-    color: $black;
+    color: $textColor;
     font-weight: 400;
     margin-bottom: 0;
   }
