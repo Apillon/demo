@@ -84,7 +84,7 @@ h3 {
 
 h4 {
   @extend .font-h4;
-  color: $dark;
+  color: $primary;
 }
 
 h5 {
@@ -101,9 +101,16 @@ a {
   @extend .font-body;
   font-weight: 700;
   color: $primary;
-
-  
+  &:hover {
+    color: $primary;
+    
+  }
 }
+
+.text-primary {
+  color: $primary;
+}
+
 
 .form-control {
   background-color: $at-inputDarkBlue;

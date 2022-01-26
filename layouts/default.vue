@@ -30,6 +30,12 @@
         >
           <!-- <a href="#" class="mx-md-4 d-block px-md-3 py-2">Authtrail Whitepaper</a> -->
 
+          
+          <a 
+          class="mr-4"
+          href="https://authtrail.com/blog/guide-how-to-use-authtrail-demo-to-add-and-check-data-integrity/">
+          How to use
+          </a>
           <b-button 
             variant="primary" 
             href="https://authtrail.com/"
@@ -37,6 +43,7 @@
           >
             Homepage
           </b-button>
+          
         </b-collapse>
       </b-container>
     </b-navbar>
