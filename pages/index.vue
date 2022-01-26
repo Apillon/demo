@@ -30,6 +30,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import '~assets/sass/variables';
 
+
 .page-selector {
   display: flex;
   justify-content: center;

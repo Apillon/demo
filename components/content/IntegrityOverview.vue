@@ -5,11 +5,11 @@
       <div class="text-center my-3">
         <template v-if="data.verified">
           <b-img src="/img/at-checkmark.svg" width="36" height="31" fluid class="mb-3" />
-          <h4 class="text-primary mb-4">{{ title || 'Integrity confirmed' }}</h4>
+          <h4 class="mb-4">{{ title || 'Integrity confirmed' }}</h4>
         </template>
         <template v-else>
           <b-img src="/img/at-close.svg" width="36" height="31" fluid class="mb-3" />
-          <h4 class="text-primary mb-4">{{ title || 'Integrity compromised' }}</h4>
+          <h4 class="mb-4">{{ title || 'Integrity compromised' }}</h4>
         </template>
       </div>
 
@@ -63,6 +63,8 @@
           <span v-else>
             Not yet anchored
             <b-spinner variant="primary" small class="ml-1" style="margin-bottom: 2px;" />
+            <br />
+            Anchored period once per hour
           </span>
         </span>
       </p>
