@@ -1,6 +1,6 @@
 <template>
   <div class="custom-textarea">
-    <label :for="id" :class="!disabled ? 'bg-white' : 'bg-transparent'">
+    <label>
             {{ label }}
     </label>
     <div class="custom-textarea__top">

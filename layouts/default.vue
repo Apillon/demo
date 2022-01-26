@@ -10,7 +10,7 @@
       <b-container class="px-0375">
         <!-- Logo - mobile -->
         <b-navbar-brand to="/">
-          <img src="/img/logotype.svg" width="166" height="45" class="d-inline-block align-top" alt="">
+          <img src="/img/logo-bright.svg" width="166" height="45" class="d-inline-block align-top" alt="">
           <h2
             class="d-inline-block mb-0 ml-2"
             style="line-height: 44px;"
@@ -98,6 +98,10 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/sass/variables';
 
+html {
+  font-family: "Poppins";
+}
+
 .main-container {
   position: relative;
   margin-top: 8rem;
@@ -126,7 +130,7 @@ export default {
   background: $bgSecondaryColor;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  box-shadow: 0px 2px 16px $primary-transparent;
+  box-shadow: $box-shadow;
   transition: background-color 0.15s, padding 0.15s, box-shadow 0.15s;
 }
 

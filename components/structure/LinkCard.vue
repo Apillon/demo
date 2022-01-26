@@ -65,8 +65,10 @@ export default Vue.extend({
     text-decoration: none;
 
     .demo-card {
-      border-color: $primary-transparent;
+      border-color: $primary;
+      box-shadow: 0px 0.5rem 1rem $btn-focusShadow; 
     }
+
   }
 
   @media (min-width: 576px) {

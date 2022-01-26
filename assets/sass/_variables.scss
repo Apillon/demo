@@ -5,12 +5,16 @@
 
 $bgPrimaryColor: #16161A;
 $bgSecondaryColor:#242629;
-  
+
+$font-family-sans-serif: 'Poppins', sans-serif;  
 
 /* bootstrap vars */
 $font-size-base: 1rem;
 $headings-font-weight: 700;
 $grid-gutter-width: 0.75rem;
+$bold-text: 700;
+
+
 
 $primary:       #7F5Af0;
 $secondary:     #B62CA8;
@@ -24,11 +28,11 @@ $black:    #161618;
 
 $at-inputDarkBlue: adjust-color($primary, $saturation:-48%, $lightness:-38%);
 $at-inputDarkBlueFocus: adjust-color($primary, $saturation:-44%, $lightness:-48%);
+$cardShadow: rgba(0, 0, 0, .7);
 
-$box-shadow: 0px 16px 32px rgba(82, 82, 82, 0.959) !default;
+$box-shadow: 0px 0.5rem 1rem $cardShadow;
+$btn-focusShadow: rgba(91, 43, 236,  0.5);
 
-
-$primary-transparent: rgb(34, 26, 59);
 
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
